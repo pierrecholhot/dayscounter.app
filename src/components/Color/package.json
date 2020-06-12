@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "name": "Color",
+  "main": "./Color.js"
+}

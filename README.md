@@ -24,13 +24,13 @@ npm run build
 
 ## Screenshots
 
-![Landing Page Light](https://raw.githubusercontent.com/pierrecholhot/dayscounter.app/github/dayscounter-light.png)
+![Landing Page Light](https://raw.githubusercontent.com/pierrecholhot/dayscounter.app/master/github/dayscounter-light.png)
 
-![Landing Page Dark](https://raw.githubusercontent.com/pierrecholhot/dayscounter.app/github/dayscounter-dark.png)
+![Landing Page Dark](https://raw.githubusercontent.com/pierrecholhot/dayscounter.app/master/github/dayscounter-dark.png)
 
-![Counters](https://raw.githubusercontent.com/pierrecholhot/dayscounter.app/github/dayscounter-list.png)
+![Counters](https://raw.githubusercontent.com/pierrecholhot/dayscounter.app/master/github/dayscounter-list.png)
 
-![Edit Counter](https://raw.githubusercontent.com/pierrecholhot/dayscounter.app/github/dayscounter-edit.png)
+![Edit Counter](https://raw.githubusercontent.com/pierrecholhot/dayscounter.app/master/github/dayscounter-edit.png)
 
 ## About
 

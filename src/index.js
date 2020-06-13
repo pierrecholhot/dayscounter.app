@@ -22,4 +22,4 @@ serviceWorker.register({
   },
 })
 
-serviceWorker.unregister()
+// serviceWorker.unregister()

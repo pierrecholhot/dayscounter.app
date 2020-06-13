@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom'
 import DaysCounterApp from './containers/Root'
 import * as serviceWorker from './serviceWorker'
 
-// if (process.env.NODE_ENV === 'production' && window.location.hostname !== 'www.dayscounter.app') {
-//   window.location.replace('https://www.dayscounter.app')
+// if (process.env.NODE_ENV === 'production' && window.location.hostname !== 'dayscounter.app') {
+//   window.location.replace('https://dayscounter.app')
 // }
 
 ReactDOM.render(

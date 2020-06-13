@@ -1,7 +1,7 @@
 {
   "name": "dayscounter.app",
   "version": "0.1.0",
-  "homepage": "https://www.dayscounter.app/",
+  "homepage": "https://dayscounter.app/",
   "private": true,
   "scripts": {
     "start": "react-scripts start",

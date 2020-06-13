@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4764f99d12db845463b3349a1b4a1bec",
+    "revision": "2f90b7fed855854af5b59891a07aed24",
     "url": "/dayscounter.app/index.html"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/dayscounter.app/static/js/2.145de587.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "d40b77be78b16fdb3d31",
-    "url": "/dayscounter.app/static/js/main.49b2595f.chunk.js"
+    "revision": "9ba3934169e1b3b61d85",
+    "url": "/dayscounter.app/static/js/main.543cd99c.chunk.js"
   },
   {
     "revision": "66507316f0adb9ef3ede",

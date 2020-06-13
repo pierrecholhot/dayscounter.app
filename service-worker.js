@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/dayscounter.app/precache-manifest.642dbf2398fddb2cbbcd15b591032ab9.js"
+  "/dayscounter.app/precache-manifest.5ee756aa6f2436a5fe7f008850341812.js"
 );
 
 self.addEventListener('message', (event) => {

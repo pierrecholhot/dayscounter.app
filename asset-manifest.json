@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.js": "/dayscounter.app/static/js/main.543cd99c.chunk.js",
-    "main.js.map": "/dayscounter.app/static/js/main.543cd99c.chunk.js.map",
-    "runtime-main.js": "/dayscounter.app/static/js/runtime-main.4165e076.js",
-    "runtime-main.js.map": "/dayscounter.app/static/js/runtime-main.4165e076.js.map",
-    "static/css/2.b2246ed7.chunk.css": "/dayscounter.app/static/css/2.b2246ed7.chunk.css",
-    "static/js/2.145de587.chunk.js": "/dayscounter.app/static/js/2.145de587.chunk.js",
-    "static/js/2.145de587.chunk.js.map": "/dayscounter.app/static/js/2.145de587.chunk.js.map",
-    "index.html": "/dayscounter.app/index.html",
-    "precache-manifest.5ee756aa6f2436a5fe7f008850341812.js": "/dayscounter.app/precache-manifest.5ee756aa6f2436a5fe7f008850341812.js",
-    "service-worker.js": "/dayscounter.app/service-worker.js",
-    "static/css/2.b2246ed7.chunk.css.map": "/dayscounter.app/static/css/2.b2246ed7.chunk.css.map",
-    "static/js/2.145de587.chunk.js.LICENSE.txt": "/dayscounter.app/static/js/2.145de587.chunk.js.LICENSE.txt",
-    "static/media/index.css": "/dayscounter.app/static/media/roboto-latin-900italic.ebf6d164.woff2"
+    "main.js": "/static/js/main.3639015c.chunk.js",
+    "main.js.map": "/static/js/main.3639015c.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.ab072ec1.js",
+    "runtime-main.js.map": "/static/js/runtime-main.ab072ec1.js.map",
+    "static/css/2.5fcb3cfe.chunk.css": "/static/css/2.5fcb3cfe.chunk.css",
+    "static/js/2.145de587.chunk.js": "/static/js/2.145de587.chunk.js",
+    "static/js/2.145de587.chunk.js.map": "/static/js/2.145de587.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.32097384b8f902dd9483c4b927a6931c.js": "/precache-manifest.32097384b8f902dd9483c4b927a6931c.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.5fcb3cfe.chunk.css.map": "/static/css/2.5fcb3cfe.chunk.css.map",
+    "static/js/2.145de587.chunk.js.LICENSE.txt": "/static/js/2.145de587.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/static/media/roboto-latin-900italic.ebf6d164.woff2"
   },
   "entrypoints": [
-    "static/js/runtime-main.4165e076.js",
-    "static/css/2.b2246ed7.chunk.css",
+    "static/js/runtime-main.ab072ec1.js",
+    "static/css/2.5fcb3cfe.chunk.css",
     "static/js/2.145de587.chunk.js",
-    "static/js/main.543cd99c.chunk.js"
+    "static/js/main.3639015c.chunk.js"
   ]
 }

@@ -5,20 +5,20 @@ import cardColors from '../../constants/cardColors'
 import Color from '../Color'
 import useStyles from './ColorPicker.styles.js'
 
-function ColorPicker(props) {
+function ColorPicker({ onChange, selected, ...props }) {
   const classes = useStyles()
 
   return (
-    <React.Fragment>
+    <div {...props}>
       <Typography variant="caption" color="textSecondary">
         Color
       </Typography>
       <div className={classes.list}>
         {cardColors.map((cc, idx) => (
-          <Color key={cc} interactive code={cc} onClick={() => props.onChange(idx)} selected={idx === props.selected} />
+          <Color key={cc} interactive code={cc} onClick={() => onChange(idx)} selected={idx === selected} />
         ))}
       </div>
-    </React.Fragment>
+    </div>
   )
 }
 

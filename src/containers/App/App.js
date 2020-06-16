@@ -6,7 +6,9 @@ import Typography from '@material-ui/core/Typography'
 import createPersistedState from 'use-persisted-state'
 
 import DateCard from '../../components/DateCard'
-import EntryCreator from '../../components/EntryCreator'
+import ExamplesDialog from '../../components/ExamplesDialog'
+import MicroButton from '../../components/MicroButton'
+import CTA from '../../components/CTA'
 import EntryUpdater from '../../components/EntryUpdater'
 import Header from '../../components/Header'
 import Footer from '../../components/Footer'
@@ -20,9 +22,13 @@ function App(props) {
   const classes = useStyles()
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+  const [isViewingExamples, setIsViewingExamples] = React.useState(false)
+  const [isCreatingEntry, setIsCreatingEntry] = React.useState(false)
   const [cardBeingEdited, setCardBeingEdited] = React.useState(null)
   const [deletedEntries, setDeletedEntries] = React.useState([])
   const [datastore, setDatastore] = useDataStoreState([])
+
+  const today = dayjs().startOf('day')
 
   const showUpdateNotification = () => {
     const action = (
@@ -63,7 +69,10 @@ function App(props) {
   }
 
   const handleRequestCreate = cardData => {
-    setDatastore(cds => [...cds, cardData])
+    if (cardData) {
+      setDatastore(cds => [...cds, cardData])
+    }
+    setIsCreatingEntry(false)
   }
 
   const renderSnackbarUndo = cardData => (
@@ -84,33 +93,73 @@ function App(props) {
     )
   }
 
+  const renderShowExamples = () => {
+    if (datastore.length) {
+      return null
+    }
+    return (
+      <div className={classes.examplesTrigger}>
+        <MicroButton onClick={() => setIsViewingExamples(true)}>see some examples</MicroButton>
+        <ExamplesDialog open={isViewingExamples} onClose={() => setIsViewingExamples(false)} />
+      </div>
+    )
+  }
+
+  const renderCardCreator = () => {
+    if (!isCreatingEntry) {
+      return null
+    }
+    return <EntryUpdater onRequestSave={handleRequestCreate} />
+  }
+
+  const renderCardEditor = () => {
+    if (!cardBeingEdited) {
+      return null
+    }
+    return <EntryUpdater data={cardBeingEdited} onRequestSave={handleRequestUpdate} />
+  }
+
+  const renderPastCounters = () => {
+    const counters = datastore.sort(sortDatesAsc)
+    const pastCounters = counters.filter(el => dayjs(el.date).startOf('day').isBefore(today))
+
+    if (!pastCounters.length) {
+      return null
+    }
+    return (
+      <React.Fragment>
+        <Typography variant="overline" className={classes.title}>
+          Past
+        </Typography>
+        {pastCounters.map(renderCard)}
+      </React.Fragment>
+    )
+  }
+
+  const renderFutureCounters = () => {
+    const counters = datastore.sort(sortDatesDsc)
+    const futureCounters = counters.filter(el => !dayjs(el.date).startOf('day').isBefore(today))
+    return futureCounters.map(renderCard)
+  }
+
   React.useEffect(() => {
     window.addEventListener('DaysCounterAppUpdate', showUpdateNotification, { once: true })
   })
-
-  const today = dayjs()
-  const pastCounters = datastore.sort(sortDatesAsc).filter(el => dayjs(el.date).startOf('day').isBefore(today))
-  const futureCounters = datastore.sort(sortDatesDsc).filter(el => !dayjs(el.date).startOf('day').isBefore(today))
 
   return (
     <div className={classes.root}>
       <Header />
       <div className={classes.create}>
-        <EntryCreator onRequestCreate={handleRequestCreate} showExamples={!datastore.length} />
+        <CTA onClick={() => setIsCreatingEntry(true)} />
+        {renderCardCreator()}
+        {renderShowExamples()}
       </div>
       <div className={classes.list}>
-        {futureCounters.map(renderCard)}
-        {!pastCounters.length ? null : (
-          <React.Fragment>
-            <Typography variant="overline" className={classes.title}>
-              Past
-            </Typography>
-            {pastCounters.map(renderCard)}
-          </React.Fragment>
-        )}
+        {renderFutureCounters()}
+        {renderPastCounters()}
       </div>
-      {cardBeingEdited ? <EntryUpdater cardData={cardBeingEdited} onRequestUpdate={handleRequestUpdate} /> : null}
       <Footer isDarkTheme={props.isDarkTheme} onRequestSwitchTheme={props.onRequestSwitchTheme} />
+      {renderCardEditor()}
     </div>
   )
 }

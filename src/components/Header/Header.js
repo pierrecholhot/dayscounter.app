@@ -13,7 +13,7 @@ function Header(props) {
         <a href="https://dayscounter.app/">Days Counter</a>
       </Typography>
       <Typography variant="h4" component="h2" className={cx(classes.intro, classes.colorTransition)}>
-        Simple <strong>date calculator</strong> to track and count <strong>days since</strong> and <strong>days until</strong> a certain date
+        Simple tool to track and count <strong>days since</strong> and <strong>days until</strong> a certain date
       </Typography>
     </React.Fragment>
   )

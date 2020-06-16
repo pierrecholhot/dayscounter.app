@@ -21,6 +21,9 @@ const styles = theme => ({
     flexDirection: 'column',
     justifyContent: 'space-between',
   },
+  examplesTrigger: {
+    marginTop: theme.spacing(1),
+  },
   examples: {
     margin: theme.spacing(1, 0, 0, 0),
   },

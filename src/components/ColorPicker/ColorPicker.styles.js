@@ -11,6 +11,9 @@ const styles = theme => ({
       flexShrink: 0,
       cursor: 'pointer',
     },
+    '& > :first-child:not(:focus)': {
+      boxShadow: '0 0 3px rgba(0, 0, 0, 0.4)',
+    },
   },
 })
 

@@ -1,30 +1,55 @@
 import React from 'react'
+import dayjs from 'dayjs'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
-import { DatePicker } from '@material-ui/pickers'
+import { KeyboardDatePicker } from '@material-ui/pickers'
 
+import cardColors from '../../constants/cardColors'
 import ColorPicker from '../ColorPicker'
 import DateCard from '../DateCard'
 import useStyles from './EntryUpdater.styles.js'
 
-function EntryUpdater({ cardData, onRequestUpdate }) {
+function EntryUpdater(props) {
   const classes = useStyles()
 
-  const [newDate, setNewDate] = React.useState(cardData.date)
-  const [newLabel, setNewLabel] = React.useState(cardData.label)
-  const [newColor, setNewColor] = React.useState(cardData.color)
+  const entryData = props.data || {}
+  const isEditing = typeof props.data === 'object' && props.data !== null
+  const randomColor = Math.floor(Math.random() * cardColors.length)
+  const today = dayjs()
+
+  const [newId] = React.useState(entryData.id || Date.now())
+  const [newDate, setNewDate] = React.useState(entryData.date || today)
+  const [newLabel, setNewLabel] = React.useState(entryData.label || '')
+  const [newColor, setNewColor] = React.useState(entryData.id ? entryData.color : randomColor)
+
+  const previewData = {
+    date: dayjs(newDate).isValid() ? newDate : today,
+    label: newLabel,
+    color: newColor,
+  }
+
+  const handleDateChange = date => {
+    setNewDate(date)
+  }
 
   const handleLabelChange = e => {
     setNewLabel(e.target.value)
   }
 
+  const handleColorChange = idx => {
+    setNewColor(idx)
+  }
+
   const handleSave = () => {
-    onRequestUpdate({
-      id: cardData.id,
+    if (!dayjs(newDate).isValid()) {
+      return
+    }
+    props.onRequestSave({
+      id: newId,
       date: newDate,
       label: newLabel,
       color: newColor,
@@ -32,31 +57,19 @@ function EntryUpdater({ cardData, onRequestUpdate }) {
   }
 
   const handleCancel = () => {
-    onRequestUpdate(null)
+    props.onRequestSave(null)
   }
 
   return (
-    <Dialog open maxWidth="md" onClose={handleCancel} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">Editing counter</DialogTitle>
+    <Dialog disableBackdropClick open fullWidth maxWidth="sm" onClose={handleCancel} aria-labelledby="form-dialog-title">
+      <DialogTitle id="form-dialog-title">{isEditing ? 'Editing' : 'Creating'} counter</DialogTitle>
       <DialogContent>
         <div className={classes.preview}>
-          <DateCard data={{ date: newDate, label: newLabel, color: newColor }} interactive={false} />
+          <DateCard data={previewData} interactive={false} />
         </div>
-        <DatePicker
-          margin="dense"
-          gutterBottom
-          label="Date"
-          variant="inline"
-          onChange={setNewDate}
-          value={newDate}
-          fullWidth
-          format="MMMM Do, YYYY"
-          autoOk
-        />
+        <KeyboardDatePicker required margin="dense" label="Date" onChange={handleDateChange} value={newDate} fullWidth format="DD/MM/YYYY" autoOk />
         <TextField margin="dense" label="Label" fullWidth value={newLabel} onChange={handleLabelChange} />
-        <div className={classes.colors}>
-          <ColorPicker selected={newColor} onChange={idx => setNewColor(idx)} />
-        </div>
+        <ColorPicker className={classes.colors} selected={newColor} onChange={handleColorChange} />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancel} color="primary">

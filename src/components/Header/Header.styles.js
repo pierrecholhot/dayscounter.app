@@ -17,10 +17,8 @@ const styles = theme => ({
   },
   intro: {
     fontSize: '1.5rem',
+    maxWidth: 650,
     margin: theme.spacing(0, 'auto'),
-    [theme.breakpoints.down('sm')]: {
-      maxWidth: 600,
-    },
     [theme.breakpoints.up('md')]: {
       fontSize: theme.typography.h4.fontSize,
     },

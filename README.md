@@ -1,6 +1,6 @@
 # Days Counter
 
-Simple date calculator to track and count days since and days until a certain date
+Simple tool to track and count days since and days until a certain date
 
 ## First run
 

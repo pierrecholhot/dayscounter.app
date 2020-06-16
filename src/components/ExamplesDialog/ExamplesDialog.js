@@ -13,7 +13,7 @@ const data = [
   { id: 1, date: 'Jun 1 2020', label: 'dayscounter.app launched', color: 2 },
   { id: 2, date: 'May 11 2020', label: 'quarantine ended', color: 3 },
   { id: 3, date: dayjs().subtract(2, 'week'), label: 'I went to the movies last time', color: 4 },
-  { id: 4, date: dayjs().add(5, 'month'), label: 'my DOTA stream', color: 5 },
+  { id: 4, date: dayjs().add(5, 'month'), label: 'My birthday! 🎉', color: 5 },
 ].sort(sortDatesAsc)
 
 function ExamplesDialog(props) {

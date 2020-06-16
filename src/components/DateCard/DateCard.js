@@ -48,9 +48,11 @@ function DateCard(props) {
         )}
         <MicroButton className={classes.button}>
           <Paper variant="outlined" className={cx(classes.paper, { [classes.interactivePaper]: props.interactive })} onClick={handleEdit}>
-            <Typography display="inline" variant="h6" className={classes.days}>
-              {daysDiff} {daysDiff > 1 ? 'days' : 'day'}
-            </Typography>
+            <Tooltip arrow title={djsDate.isBefore(djsNow) ? djsDate.from(djsNow) : djsNow.to(djsDate)}>
+              <Typography display="inline" variant="h6" className={classes.days}>
+                {daysDiff} {daysDiff > 1 ? 'days' : 'day'}
+              </Typography>
+            </Tooltip>
             <Typography display="inline" variant="caption" color="textSecondary">
               {djsDate.isBefore(djsNow) ? 'since' : 'until'}
             </Typography>

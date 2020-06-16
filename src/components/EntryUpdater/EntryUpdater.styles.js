@@ -6,7 +6,7 @@ const styles = theme => ({
     marginBottom: theme.spacing(2),
   },
   colors: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(1),
   },
 })
 

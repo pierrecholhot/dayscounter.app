@@ -8,7 +8,7 @@ const styles = theme => ({
     transitionEasing: theme.transitions.easing.sharp,
     userSelect: 'none',
     [theme.breakpoints.down('sm')]: {
-      marginBottom: theme.spacing(4),
+      marginBottom: theme.spacing(2),
     },
     '@media (any-hover: hover)': {
       '&:hover': {
@@ -27,6 +27,22 @@ const styles = theme => ({
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
+    [theme.breakpoints.down('sm')]: {
+      alignItems: 'stretch',
+    },
+  },
+  color: {
+    [theme.breakpoints.down('sm')]: {
+      '& > div': {
+        height: '100%',
+        width: theme.spacing(1),
+        borderTopRightRadius: 0,
+        borderTopLeftRadius: 4,
+        borderBottomRightRadius: 0,
+        borderBottomLeftRadius: 4,
+        margin: 0,
+      },
+    },
   },
   button: props => ({
     width: '100%',
@@ -45,24 +61,63 @@ const styles = theme => ({
   }),
   paper: {
     padding: theme.spacing(2, 3),
-    margin: theme.spacing(0, 2),
-    '& > *:not(:last-child)': {
-      marginRight: theme.spacing(2),
+    wordBreak: 'break-word',
+    [theme.breakpoints.down('sm')]: {
+      borderRadius: 0,
+      '& > :last-child': {
+        display: 'block',
+        fontSize: '1em',
+      },
+    },
+    '& > *': {
+      display: 'inline-block',
+      '&:not(:last-child)': {
+        marginRight: theme.spacing(1),
+      },
+    },
+    [theme.breakpoints.up('md')]: {
+      margin: theme.spacing(0, 2),
+      '& > *:not(:last-child)': {
+        marginRight: theme.spacing(2),
+      },
     },
   },
-  interactivePaper: props => ({
+  interactivePaper: {
     transitionProperty: 'background-color',
     transitionDuration: theme.transitions.duration.shortest,
     transitionEasing: theme.transitions.easing.sharp,
-  }),
+  },
   days: {
     color: theme.palette.primary.light,
     fontWeight: 'bold',
+    whiteSpace: 'nowrap',
   },
   deleteBtn: {
     color: theme.palette.error.dark,
+    [theme.breakpoints.down('sm')]: {
+      backgroundColor: theme.palette.background.paper,
+      color: theme.palette.error.dark,
+      height: '100%',
+      borderColor: theme.palette.divider,
+      borderWidth: 1,
+      borderStyle: 'solid',
+      borderTopRightRadius: 4,
+      borderTopLeftRadius: 0,
+      borderBottomRightRadius: 4,
+      borderBottomLeftRadius: 0,
+      borderLeftWidth: 0,
+      '&:hover, &:focus, &:active': {
+        color: theme.palette.error.main,
+        backgroundColor: theme.palette.background.paper,
+      },
+    },
     [theme.breakpoints.up('md')]: {
-      opacity: 0,
+      '@media (any-hover: hover)': {
+        opacity: 0,
+        transitionProperty: 'opacity',
+        transitionDuration: theme.transitions.duration.longest,
+        transitionEasing: theme.transitions.easing.sharp,
+      },
     },
     '&:focus': {
       opacity: 1,

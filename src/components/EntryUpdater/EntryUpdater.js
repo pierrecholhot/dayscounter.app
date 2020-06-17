@@ -7,7 +7,11 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
 import { KeyboardDatePicker } from '@material-ui/pickers'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { useTheme } from '@material-ui/core/styles'
 
+import normalizeDate from '../../utils/normalizeDate'
+import today from '../../utils/today'
 import cardColors from '../../constants/cardColors'
 import ColorPicker from '../ColorPicker'
 import DateCard from '../DateCard'
@@ -15,11 +19,12 @@ import useStyles from './EntryUpdater.styles.js'
 
 function EntryUpdater(props) {
   const classes = useStyles()
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
 
   const entryData = props.data || {}
   const isEditing = typeof props.data === 'object' && props.data !== null
   const randomColor = Math.floor(Math.random() * cardColors.length)
-  const today = dayjs()
 
   const [newId] = React.useState(entryData.id || Date.now())
   const [newDate, setNewDate] = React.useState(entryData.date || today)
@@ -50,7 +55,7 @@ function EntryUpdater(props) {
     }
     props.onRequestSave({
       id: newId,
-      date: newDate,
+      date: normalizeDate(newDate),
       label: newLabel,
       color: newColor,
     })
@@ -61,7 +66,7 @@ function EntryUpdater(props) {
   }
 
   return (
-    <Dialog disableBackdropClick open fullWidth maxWidth="sm" onClose={handleCancel} aria-labelledby="form-dialog-title">
+    <Dialog fullScreen={fullScreen} disableBackdropClick open fullWidth maxWidth="sm" onClose={handleCancel} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">{isEditing ? 'Editing' : 'Creating'} counter</DialogTitle>
       <DialogContent>
         <div className={classes.preview}>

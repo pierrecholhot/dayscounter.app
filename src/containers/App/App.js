@@ -1,6 +1,5 @@
 import React from 'react'
 import { useSnackbar } from 'notistack'
-import dayjs from 'dayjs'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import createPersistedState from 'use-persisted-state'
@@ -14,6 +13,8 @@ import Header from '../../components/Header'
 import Footer from '../../components/Footer'
 import { sortDatesAsc, sortDatesDsc } from '../../utils/sortDates'
 import formatDate from '../../utils/formatDate'
+import normalizeDate from '../../utils/normalizeDate'
+import today from '../../utils/today'
 import useStyles from './App.styles.js'
 
 const useDataStoreState = createPersistedState('datastore')
@@ -27,8 +28,6 @@ function App(props) {
   const [cardBeingEdited, setCardBeingEdited] = React.useState(null)
   const [deletedEntries, setDeletedEntries] = React.useState([])
   const [datastore, setDatastore] = useDataStoreState([])
-
-  const today = dayjs().startOf('day')
 
   const showUpdateNotification = () => {
     const action = (
@@ -121,7 +120,7 @@ function App(props) {
 
   const renderPastCounters = () => {
     const counters = datastore.sort(sortDatesAsc)
-    const pastCounters = counters.filter(el => dayjs(el.date).startOf('day').isBefore(today))
+    const pastCounters = counters.filter(el => normalizeDate(el.date).isBefore(today))
 
     if (!pastCounters.length) {
       return null
@@ -136,15 +135,15 @@ function App(props) {
     )
   }
 
-  const renderFutureCounters = () => {
+  const renderUpcomingCounters = () => {
     const counters = datastore.sort(sortDatesDsc)
-    const futureCounters = counters.filter(el => !dayjs(el.date).startOf('day').isBefore(today))
+    const futureCounters = counters.filter(el => !normalizeDate(el.date).isBefore(today))
     return futureCounters.map(renderCard)
   }
 
   React.useEffect(() => {
     window.addEventListener('DaysCounterAppUpdate', showUpdateNotification, { once: true })
-  })
+  }, [])
 
   return (
     <div className={classes.root}>
@@ -155,7 +154,7 @@ function App(props) {
         {renderShowExamples()}
       </div>
       <div className={classes.list}>
-        {renderFutureCounters()}
+        {renderUpcomingCounters()}
         {renderPastCounters()}
       </div>
       <Footer isDarkTheme={props.isDarkTheme} onRequestSwitchTheme={props.onRequestSwitchTheme} />

@@ -51,6 +51,11 @@ export default dark => {
           },
         },
       },
+      MuiBackdrop: {
+        root: {
+          backgroundColor: 'rgba(0,0,0,0.8)',
+        },
+      },
     },
   }
 }

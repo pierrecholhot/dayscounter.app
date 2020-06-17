@@ -1,9 +1,9 @@
-import dayjs from 'dayjs'
+import normalizeDate from './normalizeDate'
 
 export function sortDatesAsc(a, b) {
-  return dayjs(a.date).startOf('day').isBefore(dayjs(b.date).startOf('day')) ? 1 : -1
+  return normalizeDate(a.date).isBefore(normalizeDate(b.date)) ? 1 : -1
 }
 
 export function sortDatesDsc(a, b) {
-  return dayjs(a.date).startOf('day').isBefore(dayjs(b.date).startOf('day')) ? -1 : 1
+  return normalizeDate(a.date).isBefore(normalizeDate(b.date)) ? -1 : 1
 }

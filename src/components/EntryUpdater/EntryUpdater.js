@@ -67,7 +67,7 @@ function EntryUpdater(props) {
 
   return (
     <Dialog fullScreen={fullScreen} disableBackdropClick open fullWidth maxWidth="sm" onClose={handleCancel} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">{isEditing ? 'Editing' : 'Creating'} counter</DialogTitle>
+      <DialogTitle id="form-dialog-title">{isEditing ? 'Editing' : 'Creating a'} counter</DialogTitle>
       <DialogContent>
         <div className={classes.preview}>
           <DateCard data={previewData} interactive={false} />

@@ -31,7 +31,7 @@ function App(props) {
 
   const showUpdateNotification = () => {
     const action = (
-      <Button color="primary" size="small" onClick={() => window.location.reload()}>
+      <Button color="primary" size="small" onClick={() => window.location.reload(true)}>
         Update
       </Button>
     )

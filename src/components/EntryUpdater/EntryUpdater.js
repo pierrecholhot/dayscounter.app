@@ -1,5 +1,6 @@
 import React from 'react'
 import dayjs from 'dayjs'
+
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -7,18 +8,21 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
-import { KeyboardDatePicker } from '@material-ui/pickers'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
+import { KeyboardDatePicker } from '@material-ui/pickers'
 import { useTheme } from '@material-ui/core/styles'
+
+import ColorPicker from '../ColorPicker'
+import DateCard from '../DateCard'
+import MicroButton from '../MicroButton'
+
+import cardColors from '../../constants/cardColors'
+import suggestions from '../../constants/suggestions'
 
 import backToTheFuture from '../../utils/backToTheFuture'
 import normalizeDate from '../../utils/normalizeDate'
 import today from '../../utils/today'
-import suggestions from '../../constants/suggestions'
-import cardColors from '../../constants/cardColors'
-import ColorPicker from '../ColorPicker'
-import MicroButton from '../MicroButton'
-import DateCard from '../DateCard'
+
 import useStyles from './EntryUpdater.styles.js'
 
 function EntryUpdater(props) {

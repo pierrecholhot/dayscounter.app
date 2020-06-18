@@ -1,20 +1,23 @@
 import React from 'react'
+import createPersistedState from 'use-persisted-state'
 import { useSnackbar } from 'notistack'
+
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import createPersistedState from 'use-persisted-state'
 
-import DateCard from '../../components/DateCard'
-import ExamplesDialog from '../../components/ExamplesDialog'
-import MicroButton from '../../components/MicroButton'
 import CTA from '../../components/CTA'
+import DateCard from '../../components/DateCard'
 import EntryUpdater from '../../components/EntryUpdater'
-import Header from '../../components/Header'
+import ExamplesDialog from '../../components/ExamplesDialog'
 import Footer from '../../components/Footer'
-import { sortDatesAsc, sortDatesDsc } from '../../utils/sortDates'
+import Header from '../../components/Header'
+import MicroButton from '../../components/MicroButton'
+
 import formatDate from '../../utils/formatDate'
 import normalizeDate from '../../utils/normalizeDate'
 import today from '../../utils/today'
+import { sortDatesAsc, sortDatesDsc } from '../../utils/sortDates'
+
 import useStyles from './App.styles.js'
 
 const useDataStoreState = createPersistedState('datastore')
@@ -80,14 +83,14 @@ function App(props) {
     </Button>
   )
 
-  const renderCard = currentCardData => {
+  const renderCard = data => {
     return (
       <DateCard
-        data={currentCardData}
-        key={currentCardData.id}
-        onRequestEdit={() => setCardBeingEdited(currentCardData)}
-        onRequestDelete={() => handleRequestDelete(currentCardData)}
-        isBeingDeleted={deletedEntries.find(entry => entry.id === currentCardData.id)}
+        data={data}
+        key={data.id}
+        onRequestEdit={() => setCardBeingEdited(data)}
+        onRequestDelete={() => handleRequestDelete(data)}
+        isBeingDeleted={deletedEntries.find(entry => entry.id === data.id)}
       />
     )
   }
@@ -157,7 +160,7 @@ function App(props) {
         {renderUpcomingCounters()}
         {renderPastCounters()}
       </div>
-      <Footer isDarkTheme={props.isDarkTheme} onRequestSwitchTheme={props.onRequestSwitchTheme} />
+      <Footer onRequestSwitchTheme={props.onRequestSwitchTheme} />
       {renderCardEditor()}
     </div>
   )

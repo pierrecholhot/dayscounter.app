@@ -1,8 +1,11 @@
 import React from 'react'
+
 import Typography from '@material-ui/core/Typography'
 
-import cardColors from '../../constants/cardColors'
 import Color from '../Color'
+
+import cardColors from '../../constants/cardColors'
+
 import useStyles from './ColorPicker.styles.js'
 
 function ColorPicker({ onChange, selected, ...props }) {

@@ -1,18 +1,20 @@
 import React from 'react'
 import cx from 'classnames'
+
+import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import IconButton from '@material-ui/core/IconButton'
 import Paper from '@material-ui/core/Paper'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
-import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 
-import getCardColor from '../../utils/getCardColor'
+import Color from '../Color'
+import MicroButton from '../MicroButton'
+
 import formatDate from '../../utils/formatDate'
+import getCardColor from '../../utils/getCardColor'
 import normalizeDate from '../../utils/normalizeDate'
 import today from '../../utils/today'
 
-import MicroButton from '../MicroButton'
-import Color from '../Color'
 import useStyles from './DateCard.styles.js'
 
 function DateCard(props) {

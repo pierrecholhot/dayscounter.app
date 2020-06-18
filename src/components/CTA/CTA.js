@@ -1,7 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
-import Button from '@material-ui/core/Button'
+
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
+import Button from '@material-ui/core/Button'
 
 import useStyles from './CTA.styles.js'
 

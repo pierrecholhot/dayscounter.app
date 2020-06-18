@@ -6,14 +6,18 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
+import Typography from '@material-ui/core/Typography'
 import { KeyboardDatePicker } from '@material-ui/pickers'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { useTheme } from '@material-ui/core/styles'
 
+import backToTheFuture from '../../utils/backToTheFuture'
 import normalizeDate from '../../utils/normalizeDate'
 import today from '../../utils/today'
+import suggestions from '../../constants/suggestions'
 import cardColors from '../../constants/cardColors'
 import ColorPicker from '../ColorPicker'
+import MicroButton from '../MicroButton'
 import DateCard from '../DateCard'
 import useStyles from './EntryUpdater.styles.js'
 
@@ -65,6 +69,30 @@ function EntryUpdater(props) {
     props.onRequestSave(null)
   }
 
+  const handleInputSuggestion = ({ date, label, color }) => {
+    setNewDate(backToTheFuture(date))
+    setNewLabel(label)
+    setNewColor(color)
+  }
+
+  const renderSuggestions = () => {
+    if (isEditing) {
+      return null
+    }
+    return (
+      <div>
+        <Typography component="span" variant="caption" color="textSecondary">
+          Suggestions:
+        </Typography>{' '}
+        {suggestions.map(event => (
+          <MicroButton className={classes.suggestionButton} onClick={() => handleInputSuggestion(event)}>
+            {event.label}
+          </MicroButton>
+        ))}
+      </div>
+    )
+  }
+
   return (
     <Dialog fullScreen={fullScreen} disableBackdropClick open fullWidth maxWidth="sm" onClose={handleCancel} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">{isEditing ? 'Editing' : 'Creating'} counter</DialogTitle>
@@ -73,6 +101,7 @@ function EntryUpdater(props) {
           <DateCard data={previewData} interactive={false} />
         </div>
         <KeyboardDatePicker required margin="dense" label="Date" onChange={handleDateChange} value={newDate} fullWidth format="DD/MM/YYYY" autoOk />
+        {renderSuggestions()}
         <TextField margin="dense" label="Label" fullWidth value={newLabel} onChange={handleLabelChange} />
         <ColorPicker className={classes.colors} selected={newColor} onChange={handleColorChange} />
       </DialogContent>

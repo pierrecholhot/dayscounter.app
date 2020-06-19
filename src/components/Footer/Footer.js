@@ -7,12 +7,9 @@ import { useTheme } from '@material-ui/core/styles'
 
 import MicroButton from '../MicroButton'
 
-import useStyles from './Footer.styles.js'
-
 const usePrivacyState = createPersistedState('showPrivacy')
 
 function Footer({ className, ...props }) {
-  const classes = useStyles()
   const [showPrivacy, setShowPrivacy] = usePrivacyState(true)
   const theme = useTheme()
 
@@ -43,7 +40,7 @@ function Footer({ className, ...props }) {
   }
 
   return (
-    <div className={cx(classes.root, className)}>
+    <div className={cx(className)}>
       <Typography variant="body2" gutterBottom>
         # {openSource} # {madeWithLove} # {themeSwitcher}
       </Typography>

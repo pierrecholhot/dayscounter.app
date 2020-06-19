@@ -8,11 +8,12 @@ import Typography from '@material-ui/core/Typography'
 import CTA from '../../components/CTA'
 import DateCard from '../../components/DateCard'
 import EntryUpdater from '../../components/EntryUpdater'
-import ExamplesDialog from '../../components/ExamplesDialog'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
-import MicroButton from '../../components/MicroButton'
 
+import examples from '../../constants/examples'
+
+import backToTheFuture from '../../utils/backToTheFuture'
 import formatDate from '../../utils/formatDate'
 import normalizeDate from '../../utils/normalizeDate'
 import today from '../../utils/today'
@@ -26,7 +27,6 @@ function App(props) {
   const classes = useStyles()
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
-  const [isViewingExamples, setIsViewingExamples] = React.useState(false)
   const [isCreatingEntry, setIsCreatingEntry] = React.useState(false)
   const [cardBeingEdited, setCardBeingEdited] = React.useState(null)
   const [deletedEntries, setDeletedEntries] = React.useState([])
@@ -95,15 +95,22 @@ function App(props) {
     )
   }
 
-  const renderShowExamples = () => {
+  const renderExamples = () => {
     if (datastore.length) {
       return null
     }
     return (
-      <div className={classes.examplesTrigger}>
-        <MicroButton onClick={() => setIsViewingExamples(true)}>see some examples</MicroButton>
-        <ExamplesDialog open={isViewingExamples} onClose={() => setIsViewingExamples(false)} />
-      </div>
+      <React.Fragment>
+        <Typography variant="overline" className={classes.title}>
+          Some examples below :
+        </Typography>
+        {examples
+          .map(entry => ({ ...entry, date: backToTheFuture(entry.date) }))
+          .sort(sortDatesDsc)
+          .map(entry => (
+            <DateCard key={entry.id} data={entry} interactive={false} />
+          ))}
+      </React.Fragment>
     )
   }
 
@@ -131,7 +138,7 @@ function App(props) {
     return (
       <React.Fragment>
         <Typography variant="overline" className={classes.title}>
-          Past
+          Past Counters
         </Typography>
         {pastCounters.map(renderCard)}
       </React.Fragment>
@@ -149,20 +156,19 @@ function App(props) {
   }, [])
 
   return (
-    <div className={classes.root}>
-      <Header />
-      <div className={classes.create}>
-        <CTA onClick={() => setIsCreatingEntry(true)} />
-        {renderCardCreator()}
-        {renderShowExamples()}
+    <React.Fragment>
+      <div className={classes.root}>
+        <Header className={classes.header} onRequestCreate={() => setIsCreatingEntry(true)} />
+        <div className={classes.list}>
+          {renderExamples()}
+          {renderUpcomingCounters()}
+          {renderPastCounters()}
+        </div>
+        <Footer className={classes.footer} onRequestSwitchTheme={props.onRequestSwitchTheme} />
       </div>
-      <div className={classes.list}>
-        {renderUpcomingCounters()}
-        {renderPastCounters()}
-      </div>
-      <Footer onRequestSwitchTheme={props.onRequestSwitchTheme} />
+      {renderCardCreator()}
       {renderCardEditor()}
-    </div>
+    </React.Fragment>
   )
 }
 

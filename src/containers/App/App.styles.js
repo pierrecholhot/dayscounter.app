@@ -15,21 +15,15 @@ const styles = theme => ({
       padding: theme.spacing(0, 4),
     },
   },
-  create: {
-    margin: theme.spacing(6, 0, 7),
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-  },
-  examplesTrigger: {
-    marginTop: theme.spacing(1),
-  },
-  examples: {
-    margin: theme.spacing(1, 0, 0, 0),
+  header: {
+    margin: theme.spacing(3, 0, 7),
   },
   list: {
     flex: 1,
-    margin: theme.spacing(0, 0, 4, 0),
+    margin: theme.spacing(0, 0, 4),
+  },
+  footer: {
+    marginBottom: theme.spacing(2),
   },
   title: {
     position: 'relative',

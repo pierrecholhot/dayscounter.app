@@ -12,10 +12,10 @@ function Header({ className, ...props }) {
 
   return (
     <div className={cx(className)}>
-      <Typography variant="h1" component="h1" className={cx(classes.title, classes.colorTransition)}>
+      <Typography variant="h1" component="h1" className={classes.title}>
         <a href="https://dayscounter.app/">Days Counter</a>
       </Typography>
-      <Typography variant="h4" component="h2" className={cx(classes.intro, classes.colorTransition)}>
+      <Typography variant="h4" component="h2" className={classes.intro}>
         Simple tool to track and count <strong>days since</strong> and <strong>days until</strong> a certain date
       </Typography>
       <div>

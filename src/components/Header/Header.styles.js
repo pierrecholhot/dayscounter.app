@@ -17,16 +17,12 @@ const styles = theme => ({
   },
   intro: {
     fontSize: '1.5rem',
-    maxWidth: 650,
+    maxWidth: 450,
     margin: theme.spacing(0, 'auto', 6),
     [theme.breakpoints.up('md')]: {
       fontSize: theme.typography.h4.fontSize,
+      maxWidth: 650,
     },
-  },
-  colorTransition: {
-    transitionProperty: 'color',
-    transitionDuration: theme.transitions.duration.short,
-    transitionEasing: theme.transitions.easing.sharp,
   },
 })
 

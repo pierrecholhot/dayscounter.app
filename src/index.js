@@ -1,22 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
-import DaysCounterApp from './containers/Root'
+import Root from './containers/Root'
 import * as serviceWorker from './serviceWorker'
+import broadcastSWUpdate from './utils/broadcastSWUpdate'
+
+dayjs.extend(relativeTime)
 
 ReactDOM.render(
   <React.StrictMode>
-    <DaysCounterApp />
+    <Root />
   </React.StrictMode>,
   document.getElementById('root')
 )
 
-serviceWorker.register({
-  onUpdate: async registration => {
-    if (registration && registration.waiting) {
-      await registration.unregister()
-      registration.waiting.postMessage({ type: 'SKIP_WAITING' })
-      window.dispatchEvent(new Event('DaysCounterAppUpdate'))
-    }
-  },
-})
+serviceWorker.register({ onUpdate: broadcastSWUpdate })

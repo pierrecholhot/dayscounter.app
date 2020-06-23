@@ -26,14 +26,8 @@ const styles = theme => ({
     marginBottom: theme.spacing(2),
   },
   title: {
-    position: 'relative',
-    display: 'block',
-    textAlign: 'left',
-    paddingLeft: theme.spacing(11),
-    padding: theme.spacing(2, 0),
-    [theme.breakpoints.down('sm')]: {
-      paddingLeft: 0,
-      textAlign: 'center',
+    [theme.breakpoints.up('md')]: {
+      paddingLeft: theme.spacing(11),
     },
   },
 })

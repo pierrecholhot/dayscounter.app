@@ -5,7 +5,7 @@ const styles = theme => ({
   root: {
     transitionProperty: 'transform',
     transitionDuration: theme.transitions.duration.shortest,
-    transitionEasing: theme.transitions.easing.sharp,
+    transitionTimingFunction: theme.transitions.easing.sharp,
     userSelect: 'none',
     [theme.breakpoints.down('sm')]: {
       marginBottom: theme.spacing(2),
@@ -85,7 +85,7 @@ const styles = theme => ({
   interactivePaper: {
     transitionProperty: 'background-color',
     transitionDuration: theme.transitions.duration.shortest,
-    transitionEasing: theme.transitions.easing.sharp,
+    transitionTimingFunction: theme.transitions.easing.sharp,
   },
   days: {
     color: theme.palette.primary.light,
@@ -116,7 +116,7 @@ const styles = theme => ({
         opacity: 0,
         transitionProperty: 'opacity',
         transitionDuration: theme.transitions.duration.longest,
-        transitionEasing: theme.transitions.easing.sharp,
+        transitionTimingFunction: theme.transitions.easing.sharp,
       },
     },
     '&:focus': {

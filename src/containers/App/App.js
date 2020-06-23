@@ -5,9 +5,9 @@ import { useSnackbar } from 'notistack'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 
-import CTA from '../../components/CTA'
 import DateCard from '../../components/DateCard'
 import EntryUpdater from '../../components/EntryUpdater'
+import ListTitle from '../../components/ListTitle'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 
@@ -101,9 +101,7 @@ function App(props) {
     }
     return (
       <React.Fragment>
-        <Typography variant="overline" className={classes.title}>
-          Some examples below :
-        </Typography>
+        <ListTitle className={classes.title}>Some examples below :</ListTitle>
         {examples
           .map(entry => ({ ...entry, date: backToTheFuture(entry.date) }))
           .sort(sortDatesDsc)
@@ -137,9 +135,7 @@ function App(props) {
     }
     return (
       <React.Fragment>
-        <Typography variant="overline" className={classes.title}>
-          Past Counters
-        </Typography>
+        <ListTitle className={classes.title}>Past Counters</ListTitle>
         {pastCounters.map(renderCard)}
       </React.Fragment>
     )

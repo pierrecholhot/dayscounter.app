@@ -1,6 +1,4 @@
 import React from 'react'
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
 import DayJsUtils from '@date-io/dayjs'
 import { SnackbarProvider } from 'notistack'
 
@@ -9,11 +7,9 @@ import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import { MuiPickersUtilsProvider } from '@material-ui/pickers'
 
-import makeTheme from '../../utils/makeTheme'
-
 import App from '../App'
 
-dayjs.extend(relativeTime)
+import makeTheme from '../../utils/makeTheme'
 
 function Root(props) {
   const [isDarkTheme, setIsDarkTheme] = React.useState(false)

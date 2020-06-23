@@ -16,7 +16,7 @@ const styles = theme => ({
       opacity: 0.78,
       transitionProperty: 'box-shadow, background-color',
       transitionDuration: theme.transitions.duration.short,
-      transitionEasing: theme.transitions.easing.sharp,
+      transitionTimingFunction: theme.transitions.easing.sharp,
       boxShadow: props.selected ? selectedBoxShadow : 'none',
       '&:focus': {
         boxShadow: props.selected ? selectedBoxShadow : focusBoxShadow,

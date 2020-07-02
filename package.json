@@ -9,7 +9,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "commit": "git-cz",
-    "prerelease": "git checkout master && git pull origin master && npm i && lint",
+    "prerelease": "git checkout master && git pull origin master && npm i && npm run lint",
     "release": "standard-version -a -s",
     "lint": "prettier --check 'src/**/*.js' && eslint src/**",
     "predeploy": "npm run build",

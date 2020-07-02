@@ -8,10 +8,11 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "prettier --check 'src/**/*.js' && eslint src/**",
     "commit": "git-cz",
     "prerelease": "git checkout master && git pull origin master && npm i && npm run lint",
     "release": "standard-version -a -s",
-    "lint": "prettier --check 'src/**/*.js' && eslint src/**",
+    "postrelease": "git push --follow-tags origin master",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },

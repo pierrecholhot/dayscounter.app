@@ -1,6 +1,6 @@
 {
   "name": "dayscounter.app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://dayscounter.app/",
   "private": true,
   "scripts": {
@@ -68,6 +68,7 @@
       "package.json"
     ],
     "bumpFiles": [
+      "package.json",
       "public/manifest.json"
     ]
   },

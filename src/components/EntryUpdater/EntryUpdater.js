@@ -1,22 +1,24 @@
 import React from 'react'
-import dayjs from 'dayjs'
 
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import Divider from '@material-ui/core/Divider'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
-import { KeyboardDatePicker } from '@material-ui/pickers'
+import { DatePicker } from '@material-ui/pickers'
 import { useTheme } from '@material-ui/core/styles'
 
 import ColorPicker from '../ColorPicker'
 import DateCard from '../DateCard'
 import MicroButton from '../MicroButton'
+import InputOutline from '../InputOutline'
+import DateCardList from '../DateCardList'
 
-import cardColors from '../../constants/cardColors'
+import useCardColors from '../../utils/useCardColors'
 import suggestions from '../../constants/suggestions'
 
 import backToTheFuture from '../../utils/backToTheFuture'
@@ -27,12 +29,13 @@ import useStyles from './EntryUpdater.styles.js'
 
 function EntryUpdater(props) {
   const classes = useStyles()
+  const cardColors = useCardColors()
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
 
   const entryData = props.data || {}
   const isEditing = typeof props.data === 'object' && props.data !== null
-  const randomColor = Math.floor(Math.random() * cardColors.length)
+  const randomColor = cardColors.getRandomColor()
 
   const [newId] = React.useState(entryData.id || Date.now())
   const [newDate, setNewDate] = React.useState(entryData.date || today)
@@ -40,7 +43,7 @@ function EntryUpdater(props) {
   const [newColor, setNewColor] = React.useState(entryData.id ? entryData.color : randomColor)
 
   const previewData = {
-    date: dayjs(newDate).isValid() ? newDate : today,
+    date: newDate,
     label: newLabel,
     color: newColor,
   }
@@ -58,7 +61,7 @@ function EntryUpdater(props) {
   }
 
   const handleSave = () => {
-    if (!dayjs(newDate).isValid()) {
+    if (!normalizeDate(newDate).isValid()) {
       return
     }
     props.onRequestSave({
@@ -89,7 +92,7 @@ function EntryUpdater(props) {
           Suggestions:
         </Typography>{' '}
         {suggestions.map(event => (
-          <MicroButton className={classes.suggestionButton} onClick={() => handleInputSuggestion(event)}>
+          <MicroButton key={event.color} className={classes.suggestionButton} onClick={() => handleInputSuggestion(event)}>
             {event.label}
           </MicroButton>
         ))}
@@ -98,17 +101,54 @@ function EntryUpdater(props) {
   }
 
   return (
-    <Dialog fullScreen={fullScreen} disableBackdropClick open fullWidth maxWidth="sm" onClose={handleCancel} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">{isEditing ? 'Editing' : 'Creating'} counter</DialogTitle>
+    <Dialog
+      fullScreen={fullScreen}
+      disableBackdropClick
+      open
+      fullWidth
+      maxWidth="sm"
+      onClose={handleCancel}
+      aria-labelledby="form-dialog-title"
+      PaperProps={{ className: classes.dialogPaper }}
+    >
+      <DialogTitle id="form-dialog-title">{isEditing ? 'Editing' : 'Creating a'} counter</DialogTitle>
+      <DateCardList>
+        <DateCard data={previewData} interactive={false} dividerAfter dividerBefore />
+      </DateCardList>
       <DialogContent>
-        <div className={classes.preview}>
-          <DateCard data={previewData} interactive={false} />
+        {isEditing ? null : <div className={classes.suggestions}>{renderSuggestions()}</div>}
+        <DatePicker
+          showToolbar={false}
+          className={classes.picker}
+          label="Date"
+          onChange={handleDateChange}
+          value={newDate}
+          fullWidth
+          inputFormat="DD/MM/YYYY"
+          autoOk
+          minDate={new Date('1900-01-01')}
+          maxDate={new Date('2100-12-31')}
+          renderInput={props => (
+            <TextField margin="normal" variant="outlined" required fullWidth {...props} helperText={!isEditing && 'dd/mm/yyyy'} />
+          )}
+        />
+        <TextField
+          margin="normal"
+          label="Label"
+          InputLabelProps={{ shrink: true }}
+          fullWidth
+          value={newLabel}
+          onChange={handleLabelChange}
+          variant="outlined"
+          helperText={!isEditing && 'Optional but recommended'}
+        />
+        <div className={classes.colorsWrapper}>
+          <InputOutline id="colors" label="Color" helperText={!isEditing && 'Pick a color to tag your counter'}>
+            <ColorPicker className={classes.colors} selected={newColor} onSelect={handleColorChange} />
+          </InputOutline>
         </div>
-        <KeyboardDatePicker required margin="dense" label="Date" onChange={handleDateChange} value={newDate} fullWidth format="DD/MM/YYYY" autoOk />
-        {renderSuggestions()}
-        <TextField margin="dense" label="Label" fullWidth value={newLabel} onChange={handleLabelChange} />
-        <ColorPicker className={classes.colors} selected={newColor} onChange={handleColorChange} />
       </DialogContent>
+      <Divider />
       <DialogActions>
         <Button onClick={handleCancel} color="primary">
           Cancel

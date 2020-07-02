@@ -3,11 +3,10 @@ import createPersistedState from 'use-persisted-state'
 import { useSnackbar } from 'notistack'
 
 import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
 
 import DateCard from '../../components/DateCard'
+import DateCardList from '../../components/DateCardList'
 import EntryUpdater from '../../components/EntryUpdater'
-import ListTitle from '../../components/ListTitle'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 
@@ -17,6 +16,8 @@ import backToTheFuture from '../../utils/backToTheFuture'
 import formatDate from '../../utils/formatDate'
 import normalizeDate from '../../utils/normalizeDate'
 import today from '../../utils/today'
+import useUpdateNotification from '../../utils/useUpdateNotification'
+import { bigList, bigInt } from '../../utils/bigData'
 import { sortDatesAsc, sortDatesDsc } from '../../utils/sortDates'
 
 import useStyles from './App.styles.js'
@@ -27,58 +28,65 @@ function App(props) {
   const classes = useStyles()
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+  const updateNotification = useUpdateNotification()
   const [isCreatingEntry, setIsCreatingEntry] = React.useState(false)
   const [cardBeingEdited, setCardBeingEdited] = React.useState(null)
   const [deletedEntries, setDeletedEntries] = React.useState([])
   const [datastore, setDatastore] = useDataStoreState([])
 
   const showUpdateNotification = () => {
-    const action = (
-      <Button color="primary" size="small" onClick={() => window.location.reload(true)}>
-        Update
-      </Button>
-    )
-    enqueueSnackbar(`A new version of this app is available`, { key: 'DaysCounterAppUpdate', persist: true, action })
+    updateNotification.show()
   }
 
-  const handleRequestUndo = cardData => {
-    setDeletedEntries(entries => entries.filter(entry => entry.id !== cardData.id))
-    closeSnackbar(cardData.id)
+  const handleRequestUndo = data => {
+    setDeletedEntries(entries => entries.filter(entry => entry.id !== data.id))
+    closeSnackbar(data.id)
   }
 
-  const handleActualDelete = cardData => {
-    const match = entry => entry.id !== cardData.id
+  const handleActualDelete = data => {
+    const match = entry => entry.id !== data.id
     setDatastore(cds => cds.filter(match))
     setDeletedEntries(entries => entries.filter(match))
   }
 
-  const handleRequestDelete = cardData => {
-    setDeletedEntries(entries => [...entries, cardData])
-    enqueueSnackbar(`Deleted « ${cardData.label || formatDate(cardData.date)} »`, {
-      key: cardData.id,
-      action: () => renderSnackbarUndo(cardData),
+  const handleRequestDuplicate = data => {
+    handleRequestCreate({ ...data, id: Date.now() })
+  }
+
+  const handleRequestDelete = data => {
+    setDeletedEntries(entries => [...entries, data])
+    enqueueSnackbar(`Deleted « ${data.label || formatDate(data.date)} »`, {
+      key: data.id,
+      action: () => renderSnackbarUndo(data),
       onClose: (e, reason) => {
         if (reason !== 'instructed' && reason !== 'clickaway') {
-          handleActualDelete(cardData)
+          handleActualDelete(data)
         }
       },
     })
   }
 
   const handleRequestUpdate = data => {
-    setDatastore(cds => cds.map(entry => (entry.id === cardBeingEdited.id ? { ...entry, ...data } : entry)))
+    if (!data) {
+      setCardBeingEdited(null)
+      return
+    }
+    const idx = datastore.findIndex(el => el.id === data.id)
+    const updatedDatastore = [...datastore]
+    updatedDatastore[idx] = data
+    setDatastore(updatedDatastore)
     setCardBeingEdited(null)
   }
 
-  const handleRequestCreate = cardData => {
-    if (cardData) {
-      setDatastore(cds => [...cds, cardData])
+  const handleRequestCreate = data => {
+    if (data) {
+      setDatastore(cds => [...cds, data])
     }
     setIsCreatingEntry(false)
   }
 
-  const renderSnackbarUndo = cardData => (
-    <Button color="primary" size="small" onClick={() => handleRequestUndo(cardData)}>
+  const renderSnackbarUndo = data => (
+    <Button color="primary" size="small" onClick={() => handleRequestUndo(data)}>
       Undo
     </Button>
   )
@@ -89,6 +97,7 @@ function App(props) {
         data={data}
         key={data.id}
         onRequestEdit={() => setCardBeingEdited(data)}
+        onRequestDuplicate={() => handleRequestDuplicate(data)}
         onRequestDelete={() => handleRequestDelete(data)}
         isBeingDeleted={deletedEntries.find(entry => entry.id === data.id)}
       />
@@ -100,15 +109,14 @@ function App(props) {
       return null
     }
     return (
-      <React.Fragment>
-        <ListTitle className={classes.title}>Some examples below :</ListTitle>
-        {examples
+      <DateCardList subheader="Some examples below">
+        {[...examples]
           .map(entry => ({ ...entry, date: backToTheFuture(entry.date) }))
           .sort(sortDatesDsc)
           .map(entry => (
             <DateCard key={entry.id} data={entry} interactive={false} />
           ))}
-      </React.Fragment>
+      </DateCardList>
     )
   }
 
@@ -126,25 +134,57 @@ function App(props) {
     return <EntryUpdater data={cardBeingEdited} onRequestSave={handleRequestUpdate} />
   }
 
-  const renderPastCounters = () => {
-    const counters = datastore.sort(sortDatesAsc)
-    const pastCounters = counters.filter(el => normalizeDate(el.date).isBefore(today))
-
-    if (!pastCounters.length) {
+  const getTotalCount = data => {
+    if (!bigList(data)) {
       return null
     }
+
+    const total = data.length
+    // exclude deleted entries from total
+    if (deletedEntries.length) {
+      const totalWithoutDeleted = total - deletedEntries.length
+      return bigInt(totalWithoutDeleted) ? `(${totalWithoutDeleted})` : null
+    }
+    return `(${total})`
+  }
+
+  const renderCounters = (label, counters) => {
+    if (!counters.length) {
+      return null
+    }
+
+    if (deletedEntries.length) {
+      const allDeleted = counters.every(counter => deletedEntries.find(de => de.id === counter.id))
+
+      if (allDeleted) {
+        return null
+      }
+    }
+
     return (
-      <React.Fragment>
-        <ListTitle className={classes.title}>Past Counters</ListTitle>
-        {pastCounters.map(renderCard)}
-      </React.Fragment>
+      <DateCardList
+        className={classes.list}
+        subheader={
+          <React.Fragment>
+            {label} Counters {getTotalCount(counters)}
+          </React.Fragment>
+        }
+      >
+        {counters.map(renderCard)}
+      </DateCardList>
     )
   }
 
   const renderUpcomingCounters = () => {
-    const counters = datastore.sort(sortDatesDsc)
-    const futureCounters = counters.filter(el => !normalizeDate(el.date).isBefore(today))
-    return futureCounters.map(renderCard)
+    const data = datastore.filter(el => !normalizeDate(el.date).isBefore(today))
+    const counters = sortDatesDsc(data)
+    return renderCounters('Upcoming', counters)
+  }
+
+  const renderPastCounters = () => {
+    const data = datastore.filter(el => normalizeDate(el.date).isBefore(today))
+    const counters = sortDatesAsc(data)
+    return renderCounters('Past', counters)
   }
 
   React.useEffect(() => {
@@ -155,11 +195,9 @@ function App(props) {
     <React.Fragment>
       <div className={classes.root}>
         <Header className={classes.header} onRequestCreate={() => setIsCreatingEntry(true)} />
-        <div className={classes.list}>
-          {renderExamples()}
-          {renderUpcomingCounters()}
-          {renderPastCounters()}
-        </div>
+        {renderExamples()}
+        {renderUpcomingCounters()}
+        {renderPastCounters()}
         <Footer className={classes.footer} onRequestSwitchTheme={props.onRequestSwitchTheme} />
       </div>
       {renderCardCreator()}

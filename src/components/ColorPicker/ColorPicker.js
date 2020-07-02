@@ -1,27 +1,33 @@
 import React from 'react'
+import cx from 'classnames'
 
-import Typography from '@material-ui/core/Typography'
+import RadioGroup from '@material-ui/core/RadioGroup'
 
 import Color from '../Color'
 
-import cardColors from '../../constants/cardColors'
+import useCardColors from '../../utils/useCardColors'
 
 import useStyles from './ColorPicker.styles.js'
 
-function ColorPicker({ onChange, selected, ...props }) {
+function ColorPicker({ onSelect, selected, className, ...props }) {
   const classes = useStyles()
+  const cardColors = useCardColors()
+
+  const rootProps = {
+    name: 'colors',
+    className: cx(classes.list, className),
+    onChange: e => {
+      onSelect(cardColors.getColorIndexByValue(e.target.value))
+    },
+    ...props,
+  }
 
   return (
-    <div {...props}>
-      <Typography variant="caption" color="textSecondary">
-        Color
-      </Typography>
-      <div className={classes.list}>
-        {cardColors.map((cc, idx) => (
-          <Color key={cc} interactive code={cc} onClick={() => onChange(idx)} selected={idx === selected} />
-        ))}
-      </div>
-    </div>
+    <RadioGroup {...rootProps}>
+      {cardColors.colors.map(color => (
+        <Color interactive key={color} code={color} selected={cardColors.colors[selected] === color} />
+      ))}
+    </RadioGroup>
   )
 }
 

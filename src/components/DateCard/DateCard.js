@@ -1,32 +1,33 @@
 import React from 'react'
-import cx from 'classnames'
 
-import HighlightOffIcon from '@material-ui/icons/HighlightOff'
-import IconButton from '@material-ui/core/IconButton'
-import Paper from '@material-ui/core/Paper'
-import Tooltip from '@material-ui/core/Tooltip'
+import Skeleton from '@material-ui/lab/Skeleton'
+import Divider from '@material-ui/core/Divider'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemIcon from '@material-ui/core/ListItemIcon'
+import ListItemText from '@material-ui/core/ListItemText'
 import Typography from '@material-ui/core/Typography'
+import Collapse from '@material-ui/core/Collapse'
 
 import Color from '../Color'
-import MicroButton from '../MicroButton'
+import Days from '../Days'
+import DateCardActions from '../DateCardActions'
 
 import formatDate from '../../utils/formatDate'
-import getCardColor from '../../utils/getCardColor'
 import normalizeDate from '../../utils/normalizeDate'
 import today from '../../utils/today'
+import useCardColors from '../../utils/useCardColors'
 
 import useStyles from './DateCard.styles.js'
 
 function DateCard(props) {
   const classes = useStyles(props)
+  const cardColors = useCardColors()
+  const [hidden, setHidden] = React.useState(false)
 
   const djsDate = normalizeDate(props.data.date)
-  const formattedDate = formatDate(djsDate)
   const daysDiff = Math.abs(djsDate.diff(today, 'day'))
-
-  if (props.isBeingDeleted) {
-    return null
-  }
+  const relativeDate = djsDate.isBefore(today) ? djsDate.from(today) : today.to(djsDate)
+  const dateInfo = `${formatDate(djsDate)} ${daysDiff > 25 ? `(${relativeDate})` : ''}`
 
   const handleDelete = e => {
     if (props.onRequestDelete) {
@@ -40,78 +41,85 @@ function DateCard(props) {
     }
   }
 
-  const renderDaysDiff = () => {
-    const content = (
-      <Typography component="span" variant="h6" className={classes.days}>
-        {daysDiff} {daysDiff > 1 ? 'days' : 'day'}
-      </Typography>
-    )
-    return daysDiff < 25 ? (
-      content
-    ) : (
-      <Tooltip arrow title={djsDate.isBefore(today) ? djsDate.from(today) : today.to(djsDate)}>
-        {content}
-      </Tooltip>
-    )
+  const handleDupe = e => {
+    if (props.onRequestDuplicate) {
+      props.onRequestDuplicate()
+    }
   }
 
-  const renderLabels = () => {
-    if (!props.data.label) {
-      return (
-        <Typography component="span" variant="subtitle1">
-          {formattedDate}
-        </Typography>
-      )
+  const renderActions = () => {
+    if (!props.interactive) {
+      return null
+    }
+    return <DateCardActions id={props.data.id} onRequestEdit={handleEdit} onRequestDuplicate={handleDupe} onRequestDelete={handleDelete} />
+  }
+
+  const renderDaysDiff = () => {
+    if (daysDiff === 0) {
+      return <Days>Today</Days>
     }
     return (
       <React.Fragment>
-        <Typography component="span" variant="subtitle1">
-          {props.data.label}
-        </Typography>
-        <Typography component="span" variant="subtitle1" color="textSecondary">
-          ({formattedDate})
+        <Days>
+          {daysDiff} {daysDiff > 1 ? 'days' : 'day'}
+        </Days>
+        <Typography variant="body1" component="span" color="textSecondary" className={classes.when}>
+          {djsDate.isBefore(today) ? 'since' : 'until'}
         </Typography>
       </React.Fragment>
     )
   }
 
-  const renderDeleteButton = () => {
-    if (!props.interactive) {
-      return null
-    }
+  const renderPrimaryText = () => {
     return (
-      <div>
-        <Tooltip title="Delete">
-          <IconButton className={classes.deleteBtn} aria-label="delete counter" onClick={handleDelete}>
-            <HighlightOffIcon />
-          </IconButton>
-        </Tooltip>
-      </div>
+      <span className={classes.primary}>
+        {renderDaysDiff()}
+        <Typography variant="body1" component="span" className={classes.label}>
+          {props.data.label || dateInfo}
+        </Typography>
+      </span>
     )
   }
 
+  const renderSecondaryText = () => {
+    return props.data.label ? dateInfo : null
+  }
+
   return (
-    <div className={cx(classes.root, props.className)}>
-      <div className={classes.content}>
-        <div className={classes.color}>
-          <Color code={getCardColor(props.data.color)} />
+    <React.Fragment>
+      <Collapse in={!props.isBeingDeleted} onEnter={() => setHidden(false)} onExited={() => setHidden(true)}>
+        <div style={{ display: hidden ? 'none' : 'block' }}>
+          {props.dividerBefore ? <Divider component="div" /> : null}
+          <ListItem component="div">
+            <ListItemIcon>
+              <Color code={cardColors.getColorValueByIndex(djsDate.isValid() ? props.data.color : 0)} />
+            </ListItemIcon>
+            <ListItemText
+              primary={
+                djsDate.isValid() ? (
+                  renderPrimaryText()
+                ) : (
+                  <React.Fragment>
+                    <Skeleton className={classes.skeleton} variant="text" width="15%" />
+                    <Skeleton className={classes.skeleton} variant="text" width="10%" />
+                    <Skeleton className={classes.skeleton} variant="text" width="40%" />
+                  </React.Fragment>
+                )
+              }
+              secondary={djsDate.isValid() ? renderSecondaryText() : !!props.data.label && <Skeleton variant="text" width="50%" />}
+            />
+            {renderActions()}
+          </ListItem>
+          {props.dividerAfter ? <Divider component="div" /> : null}
         </div>
-        <MicroButton className={classes.button}>
-          <Paper variant="outlined" className={cx(classes.paper, { [classes.interactivePaper]: props.interactive })} onClick={handleEdit}>
-            {renderDaysDiff()}
-            <Typography component="span" variant="caption" color="textSecondary">
-              {djsDate.isBefore(today) ? 'since' : 'until'}
-            </Typography>
-            {renderLabels()}
-          </Paper>
-        </MicroButton>
-        {renderDeleteButton()}
-      </div>
-    </div>
+      </Collapse>
+    </React.Fragment>
   )
 }
 
 DateCard.defaultProps = {
+  dividerBefore: true,
+  dividerAfter: false,
   interactive: true,
 }
 

@@ -2,8 +2,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import { name } from './package.json'
 
 const styles = theme => ({
-  preview: {
-    marginBottom: theme.spacing(2),
+  suggestions: {
+    textAlign: 'right',
+    margin: theme.spacing(1, 0),
   },
   suggestionButton: {
     display: 'inline-block',
@@ -12,8 +13,15 @@ const styles = theme => ({
       marginRight: theme.spacing(0.5),
     },
   },
-  colors: {
-    marginTop: theme.spacing(1),
+  colorsWrapper: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+  picker: {
+    width: '100%',
+  },
+  dialogPaper: {
+    backgroundColor: theme.palette.background.default,
   },
 })
 

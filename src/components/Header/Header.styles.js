@@ -10,7 +10,7 @@ const styles = theme => ({
     },
     '&::after': {
       content: '".app"',
-      fontSize: 24,
+      fontSize: '40%',
       color: theme.palette.secondary.light,
     },
     '& a:hover': { textDecoration: 'none' },
@@ -21,7 +21,7 @@ const styles = theme => ({
     margin: theme.spacing(0, 'auto', 6),
     [theme.breakpoints.up('md')]: {
       fontSize: theme.typography.h4.fontSize,
-      maxWidth: 650,
+      maxWidth: 500,
     },
   },
 })

@@ -2,11 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
 
 import Root from './containers/Root'
 import * as serviceWorker from './serviceWorker'
 import broadcastSWUpdate from './utils/broadcastSWUpdate'
 
+dayjs.extend(advancedFormat)
 dayjs.extend(relativeTime)
 
 ReactDOM.render(

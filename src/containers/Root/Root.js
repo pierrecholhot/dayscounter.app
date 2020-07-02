@@ -5,7 +5,7 @@ import { SnackbarProvider } from 'notistack'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
-import { MuiPickersUtilsProvider } from '@material-ui/pickers'
+import { LocalizationProvider } from '@material-ui/pickers'
 
 import App from '../App'
 
@@ -24,11 +24,11 @@ function Root(props) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <MuiPickersUtilsProvider utils={DayJsUtils}>
+      <LocalizationProvider dateAdapter={DayJsUtils}>
         <SnackbarProvider maxSnack={3}>
           <App onRequestSwitchTheme={() => setIsDarkTheme(!isDarkTheme)} />
         </SnackbarProvider>
-      </MuiPickersUtilsProvider>
+      </LocalizationProvider>
     </ThemeProvider>
   )
 }

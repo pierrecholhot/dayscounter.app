@@ -16,7 +16,7 @@ function Header({ className, ...props }) {
         <a href="https://dayscounter.app/">Days Counter</a>
       </Typography>
       <Typography variant="h4" component="h2" className={classes.intro}>
-        Simple tool to track and count <strong>days since</strong> and <strong>days until</strong> a certain date
+        Track and count <strong>days since</strong> and <strong>days until</strong> a certain date
       </Typography>
       <div>
         <CTA onClick={props.onRequestCreate} />

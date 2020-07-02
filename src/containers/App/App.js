@@ -108,14 +108,12 @@ function App(props) {
     if (datastore.length) {
       return null
     }
+    const withDates = examples.map(entry => ({ ...entry, date: backToTheFuture(entry.date) }))
     return (
       <DateCardList subheader="Some examples below">
-        {[...examples]
-          .map(entry => ({ ...entry, date: backToTheFuture(entry.date) }))
-          .sort(sortDatesDsc)
-          .map(entry => (
-            <DateCard key={entry.id} data={entry} interactive={false} />
-          ))}
+        {sortDatesDsc(withDates).map(entry => (
+          <DateCard key={entry.id} data={entry} interactive={false} />
+        ))}
       </DateCardList>
     )
   }

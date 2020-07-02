@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 
 import FormHelperText from '@material-ui/core/FormHelperText'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -12,10 +13,8 @@ const InputOutline = ({ id, label, helperText, children }) => {
   const labelRef = React.useRef(null)
 
   React.useEffect(() => {
-    const node = labelRef.current || { current: null }
-    if (node.current) {
-      setLabelWidth(node.current.offsetWidth)
-    }
+    const labelNode = ReactDOM.findDOMNode(labelRef.current)
+    setLabelWidth(labelNode != null ? labelNode.offsetWidth : 0)
   }, [label])
 
   return (

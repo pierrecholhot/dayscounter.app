@@ -9,8 +9,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "commit": "git-cz",
-    "lint": "eslint src/**",
-    "prettier:check": "prettier --check 'src/**/*.js'",
+    "prerelease": "git checkout master && git pull origin master && npm i && lint",
+    "release": "standard-version -a -s",
+    "lint": "prettier --check 'src/**/*.js' && eslint src/**",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
@@ -41,7 +42,8 @@
     "husky": "4.2.5",
     "lint-staged": "10.2.11",
     "prettier": "2.0.5",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "standard-version": "8.0.0"
   },
   "config": {
     "commitizen": {
@@ -58,6 +60,14 @@
     "src/**/*.js": [
       "prettier --write",
       "eslint --fix"
+    ]
+  },
+  "standard-version": {
+    "packageFiles": [
+      "package.json"
+    ],
+    "bumpFiles": [
+      "public/manifest.json"
     ]
   },
   "eslintConfig": {

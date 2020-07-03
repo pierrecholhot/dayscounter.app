@@ -36,10 +36,6 @@ function App(props) {
   const [datastore, setDatastore] = useDataStoreState([])
   const deletedEntries = datastore.filter(e => e.deleted)
 
-  const showUpdateNotification = () => {
-    updateNotification.show()
-  }
-
   const handleRequestUndo = data => {
     const payload = { ...data, deleted: false }
     handleRequestUpdate(payload)
@@ -191,8 +187,9 @@ function App(props) {
   }
 
   React.useEffect(() => {
+    const showUpdateNotification = () => updateNotification.show()
     window.addEventListener('DaysCounterAppUpdate', showUpdateNotification, { once: true })
-  }, [showUpdateNotification])
+  }, [updateNotification])
 
   return (
     <React.Fragment>

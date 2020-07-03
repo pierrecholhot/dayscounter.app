@@ -8,6 +8,8 @@ import Root from './containers/Root'
 import * as serviceWorker from './serviceWorker'
 import broadcastSWUpdate from './utils/broadcastSWUpdate'
 
+import { name, version } from '../package.json'
+
 dayjs.extend(advancedFormat)
 dayjs.extend(relativeTime)
 
@@ -19,3 +21,5 @@ ReactDOM.render(
 )
 
 serviceWorker.register({ onUpdate: broadcastSWUpdate })
+
+console.log(name, version)

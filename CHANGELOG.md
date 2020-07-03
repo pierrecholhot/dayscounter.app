@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.8](https://github.com/pierrecholhot/dayscounter.app/compare/v0.1.7...v0.1.8) (2020-07-03)
+
+
+### Features
+
+* 🎸 Improve UI ([48f2e07](https://github.com/pierrecholhot/dayscounter.app/commit/48f2e07054b07c250c9bd6269a1c9404ec1b0fdf))
+
 ### [0.1.7](https://github.com/pierrecholhot/dayscounter.app/compare/v0.1.6...v0.1.7) (2020-07-03)
 
 

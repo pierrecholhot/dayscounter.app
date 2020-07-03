@@ -3,25 +3,49 @@ import { name } from './package.json'
 
 const styles = theme => ({
   title: {
-    margin: theme.spacing(0, 'auto', 3),
+    margin: theme.spacing(0, 0, 2),
     fontSize: '3rem',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '4rem',
+    },
     [theme.breakpoints.up('md')]: {
       fontSize: theme.typography.h1.fontSize,
     },
-    '&::after': {
-      content: '".app"',
-      fontSize: '40%',
-      color: theme.palette.secondary.light,
+    [theme.breakpoints.up('xl')]: {
+      fontSize: 60,
+    },
+    '& a': {
+      display: 'inline-block',
+      position: 'relative',
+      '&::after': {
+        content: '".app"',
+        fontSize: '50%',
+        color: theme.palette.secondary.light,
+        position: 'absolute',
+        right: 0,
+        top: -14,
+        [theme.breakpoints.up('md')]: {
+          top: -20,
+        },
+        [theme.breakpoints.up('xl')]: {
+          top: -14,
+        },
+      },
     },
     '& a:hover': { textDecoration: 'none' },
   },
   intro: {
-    fontSize: '1.5rem',
-    maxWidth: 450,
-    margin: theme.spacing(0, 'auto', 6),
+    display: 'inline-block',
+    fontSize: '1.6rem',
+    margin: theme.spacing(0, 0, 4),
+    maxWidth: 350,
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '2rem',
+      maxWidth: 420,
+    },
     [theme.breakpoints.up('md')]: {
       fontSize: theme.typography.h4.fontSize,
-      maxWidth: 500,
+      maxWidth: 450,
     },
   },
 })

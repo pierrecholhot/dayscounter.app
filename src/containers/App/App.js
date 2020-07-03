@@ -3,6 +3,8 @@ import createPersistedState from 'use-persisted-state'
 import { useSnackbar } from 'notistack'
 
 import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
+import Hidden from '@material-ui/core/Hidden'
 
 import DateCard from '../../components/DateCard'
 import DateCardList from '../../components/DateCardList'
@@ -187,11 +189,27 @@ function App(props) {
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <Header className={classes.header} onRequestCreate={() => setIsCreatingEntry(true)} />
-        {renderExamples()}
-        {renderUpcomingCounters()}
-        {renderPastCounters()}
-        <Footer className={classes.footer} onRequestSwitchTheme={props.onRequestSwitchTheme} />
+        <Grid className={classes.grid} container>
+          <Grid item xs={12} xl={1} />
+          <Grid item xs={12} xl={4} className={classes.headers} container justify="center" alignItems="center">
+            <div>
+              <Header className={classes.header} onRequestCreate={() => setIsCreatingEntry(true)} />
+              <Hidden only={['xs', 'sm', 'md', 'lg']} implementation="css">
+                <Footer className={classes.footer} onRequestSwitchTheme={props.onRequestSwitchTheme} />
+              </Hidden>
+            </div>
+          </Grid>
+          <Grid item xs={12} xl={4}>
+            <div className={classes.content}>
+              {renderExamples()}
+              {renderUpcomingCounters()}
+              {renderPastCounters()}
+            </div>
+            <Hidden only={['xl']} implementation="js">
+              <Footer className={classes.footer} onRequestSwitchTheme={props.onRequestSwitchTheme} />
+            </Hidden>
+          </Grid>
+        </Grid>
       </div>
       {renderCardCreator()}
       {renderCardEditor()}

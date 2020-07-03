@@ -13,7 +13,7 @@ function Header({ className, ...props }) {
   return (
     <div className={cx(className)}>
       <Typography variant="h1" component="h1" className={classes.title}>
-        <a href="https://dayscounter.app/">Days Counter</a>
+        <a href="https://dayscounter.app/">Days counter</a>
       </Typography>
       <Typography variant="h4" component="h2" className={classes.intro}>
         Track and count <strong>days since</strong> and <strong>days until</strong> a certain date

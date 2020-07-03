@@ -41,7 +41,6 @@ export default dark => {
         'html, body, #root': {
           width: '100%',
           height: '100%',
-          minHeight: '100vh',
         },
         body: {
           '-webkit-tap-highlight-color': 'transparent',

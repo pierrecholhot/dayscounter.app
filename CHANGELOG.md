@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.5](https://github.com/pierrecholhot/dayscounter.app/compare/v0.1.4...v0.1.5) (2020-07-03)
+
+
+### Features
+
+* 🎸 Improve UI on bigger screens ([4d60340](https://github.com/pierrecholhot/dayscounter.app/commit/4d60340566ef51b24facdeccf80a07a694fd159c))
+
+
+### Bug Fixes
+
+* 🐛 Fix major regression ([2c20423](https://github.com/pierrecholhot/dayscounter.app/commit/2c204239604debe2f0325458eb59e3587e91cdb7))
+
 ### [0.1.4](https://github.com/pierrecholhot/dayscounter.app/compare/v0.1.3...v0.1.4) (2020-07-03)
 
 ### [0.1.3](https://github.com/pierrecholhot/dayscounter.app/compare/v0.1.2...v0.1.3) (2020-07-02)

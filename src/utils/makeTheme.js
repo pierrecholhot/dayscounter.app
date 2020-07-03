@@ -18,6 +18,10 @@ export default dark => {
     },
   }
 
+  if (dark) {
+    palette.primary.contrastText = backgroundColor.light
+  }
+
   const typography = {
     h1: {
       fontFamily: headingsFontFamily,
@@ -31,9 +35,19 @@ export default dark => {
         backgroundColor: 'rgba(0,0,0,0.8)',
       },
     },
+    MuiPaper: {
+      root: {
+        transitionProperty: 'background-color',
+        transitionDuration: '250ms',
+        transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.6, 1)',
+      },
+    },
     MuiListSubheader: {
       sticky: {
         backgroundColor: paperBackgroundColor[key],
+        transitionProperty: 'background-color',
+        transitionDuration: '250ms',
+        transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.6, 1)',
       },
     },
     MuiCssBaseline: {

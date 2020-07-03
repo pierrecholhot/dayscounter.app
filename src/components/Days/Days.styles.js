@@ -6,6 +6,7 @@ const styles = theme => ({
     fontWeight: 'bold',
     color: theme.palette.primary.light,
     whiteSpace: 'nowrap',
+    lineHeight: 1,
   },
 })
 

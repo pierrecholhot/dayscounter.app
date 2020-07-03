@@ -11,7 +11,7 @@ const styles = theme => ({
     [theme.breakpoints.up('md')]: {
       fontSize: theme.typography.h1.fontSize,
     },
-    [theme.breakpoints.up('xl')]: {
+    [theme.breakpoints.up('lg')]: {
       fontSize: 60,
     },
     '& a': {
@@ -27,7 +27,7 @@ const styles = theme => ({
         [theme.breakpoints.up('md')]: {
           top: -20,
         },
-        [theme.breakpoints.up('xl')]: {
+        [theme.breakpoints.up('lg')]: {
           top: -14,
         },
       },

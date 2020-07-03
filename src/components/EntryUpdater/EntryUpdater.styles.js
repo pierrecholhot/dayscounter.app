@@ -4,7 +4,7 @@ import { name } from './package.json'
 const styles = theme => ({
   suggestions: {
     textAlign: 'right',
-    margin: theme.spacing(1, 0),
+    marginTop: theme.spacing(2),
   },
   suggestionButton: {
     display: 'inline-block',
@@ -15,13 +15,15 @@ const styles = theme => ({
   },
   colorsWrapper: {
     marginTop: theme.spacing(2),
-    marginBottom: theme.spacing(2),
   },
   picker: {
     width: '100%',
   },
   dialogPaper: {
     backgroundColor: theme.palette.background.default,
+  },
+  formContent: {
+    padding: theme.spacing(1, 0, 3),
   },
 })
 

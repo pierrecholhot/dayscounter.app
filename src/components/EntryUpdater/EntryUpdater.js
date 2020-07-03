@@ -112,40 +112,50 @@ function EntryUpdater(props) {
       PaperProps={{ className: classes.dialogPaper }}
     >
       <DialogTitle id="form-dialog-title">{isEditing ? 'Editing' : 'Creating a'} counter</DialogTitle>
-      <DateCardList>
+      <DateCardList single>
         <DateCard data={previewData} interactive={false} dividerAfter dividerBefore />
       </DateCardList>
       <DialogContent>
         {isEditing ? null : <div className={classes.suggestions}>{renderSuggestions()}</div>}
-        <DatePicker
-          showToolbar={false}
-          className={classes.picker}
-          label="Date"
-          onChange={handleDateChange}
-          value={newDate}
-          fullWidth
-          inputFormat="DD/MM/YYYY"
-          autoOk
-          minDate={new Date('1900-01-01')}
-          maxDate={new Date('2100-12-31')}
-          renderInput={props => (
-            <TextField margin="normal" variant="outlined" required fullWidth {...props} helperText={!isEditing && 'dd/mm/yyyy'} />
-          )}
-        />
-        <TextField
-          margin="normal"
-          label="Label"
-          InputLabelProps={{ shrink: true }}
-          fullWidth
-          value={newLabel}
-          onChange={handleLabelChange}
-          variant="outlined"
-          helperText={!isEditing && 'Optional but recommended'}
-        />
-        <div className={classes.colorsWrapper}>
-          <InputOutline id="colors" label="Color" helperText={!isEditing && 'Pick a color to tag your counter'}>
-            <ColorPicker className={classes.colors} selected={newColor} onSelect={handleColorChange} />
-          </InputOutline>
+        <div className={classes.formContent}>
+          <DatePicker
+            showToolbar={false}
+            className={classes.picker}
+            label="Date"
+            onChange={handleDateChange}
+            value={newDate}
+            fullWidth
+            inputFormat="DD/MM/YYYY"
+            autoOk
+            minDate={new Date('1900-01-01')}
+            maxDate={new Date('2100-12-31')}
+            renderInput={props => (
+              <TextField
+                margin="normal"
+                variant="outlined"
+                required
+                fullWidth
+                {...props}
+                helperText={!isEditing && 'dd/mm/yyyy'}
+                error={!normalizeDate(newDate).isValid()}
+              />
+            )}
+          />
+          <TextField
+            margin="normal"
+            label="Label"
+            InputLabelProps={{ shrink: true }}
+            fullWidth
+            value={newLabel}
+            onChange={handleLabelChange}
+            variant="outlined"
+            helperText={!isEditing && 'Optional but recommended'}
+          />
+          <div className={classes.colorsWrapper}>
+            <InputOutline id="colors" label="Color" helperText={!isEditing && 'Pick a color to tag your counter'}>
+              <ColorPicker className={classes.colors} selected={newColor} onSelect={handleColorChange} />
+            </InputOutline>
+          </div>
         </div>
       </DialogContent>
       <Divider />
@@ -153,7 +163,12 @@ function EntryUpdater(props) {
         <Button onClick={handleCancel} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleSave} color="primary">
+        <Button
+          onClick={handleSave}
+          disabled={!normalizeDate(newDate).isValid()}
+          color="primary"
+          variant={newLabel && newDate ? 'contained' : 'text'}
+        >
           Save
         </Button>
       </DialogActions>

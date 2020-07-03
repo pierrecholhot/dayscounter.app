@@ -2,6 +2,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import { name } from './package.json'
 
 const styles = theme => ({
+  li: {
+    minHeight: 79,
+  },
   primary: props => ({
     display: 'block',
     paddingRight: props.interactive ? theme.spacing(6) : null,

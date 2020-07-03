@@ -7,11 +7,11 @@ import ListSubheader from '@material-ui/core/ListSubheader'
 
 import useStyles from './DateCardList.styles.js'
 
-function DateCardList({ subheader, className, children, ...props }) {
+function DateCardList({ single, subheader, className, children, ...props }) {
   const classes = useStyles()
 
   return (
-    <Paper elevation={0} className={cx(classes.root, className)}>
+    <Paper square={single} elevation={0} className={cx(classes.root, className)}>
       {subheader ? <ListSubheader component="div">{subheader}</ListSubheader> : null}
       <List component="div" className={classes.list}>
         {children}

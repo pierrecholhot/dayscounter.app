@@ -5,6 +5,7 @@ import { useSnackbar } from 'notistack'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
+import Typography from '@material-ui/core/Typography'
 
 import DateCard from '../../components/DateCard'
 import DateCardList from '../../components/DateCardList'
@@ -111,11 +112,13 @@ function App(props) {
     }
     const withDates = examples.map(entry => ({ ...entry, date: backToTheFuture(entry.date) }))
     return (
-      <DateCardList subheader="Some examples below">
-        {sortDatesDsc(withDates).map(entry => (
-          <DateCard key={entry.id} data={entry} interactive={false} />
-        ))}
-      </DateCardList>
+      <div className={classes.examples}>
+        <DateCardList subheader="Some examples below">
+          {sortDatesDsc(withDates).map(entry => (
+            <DateCard key={entry.id} data={entry} interactive={false} />
+          ))}
+        </DateCardList>
+      </div>
     )
   }
 
@@ -165,6 +168,17 @@ function App(props) {
     )
   }
 
+  const renderTodaysDate = () => {
+    if (!datastore.length) {
+      return null
+    }
+    return (
+      <Typography component="div" align="center" color="textSecondary" variant="overline" paragraph>
+        ● {today.format('dddd, MMMM D, YYYY')} ●
+      </Typography>
+    )
+  }
+
   const renderUpcomingCounters = () => {
     const data = datastore.filter(el => !normalizeDate(el.date).isBefore(today))
     const counters = sortDatesDsc(data)
@@ -188,21 +202,22 @@ function App(props) {
       <div className={classes.root}>
         <Grid className={classes.grid} container>
           <Grid item xs={12} xl={1} />
-          <Grid item xs={12} xl={4} className={classes.headers} container justify="center" alignItems="center">
+          <Grid item xs={12} lg={5} xl={4} className={classes.headers} container justify="center" alignItems="center">
             <div>
               <Header className={classes.header} onRequestCreate={() => setIsCreatingEntry(true)} />
-              <Hidden only={['xs', 'sm', 'md', 'lg']} implementation="css">
+              <Hidden only={['xs', 'sm', 'md']} implementation="css">
                 <Footer className={classes.footer} onRequestSwitchTheme={props.onRequestSwitchTheme} />
               </Hidden>
             </div>
           </Grid>
-          <Grid item xs={12} xl={4}>
+          <Grid item xs={12} lg={6} xl={5}>
             <div className={classes.content}>
               {renderExamples()}
+              {/*renderTodaysDate()*/}
               {renderUpcomingCounters()}
               {renderPastCounters()}
             </div>
-            <Hidden only={['xl']} implementation="js">
+            <Hidden only={['lg', 'xl']} implementation="js">
               <Footer className={classes.footer} onRequestSwitchTheme={props.onRequestSwitchTheme} />
             </Hidden>
           </Grid>

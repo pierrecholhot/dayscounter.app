@@ -90,7 +90,7 @@ function DateCard(props) {
       <Collapse in={!props.data.deleted} onEnter={() => setHidden(false)} onExited={() => setHidden(true)}>
         <div style={{ display: hidden ? 'none' : 'block' }}>
           {props.dividerBefore ? <Divider component="div" /> : null}
-          <ListItem component="div">
+          <ListItem component="div" className={classes.li}>
             <ListItemIcon>
               <Color code={cardColors.getColorValueByIndex(djsDate.isValid() ? props.data.color : 0)} />
             </ListItemIcon>

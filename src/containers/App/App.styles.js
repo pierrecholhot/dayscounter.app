@@ -11,13 +11,14 @@ const styles = theme => ({
   header: {
     margin: theme.spacing(6, 0, 0),
     textAlign: 'center',
-    [theme.breakpoints.up('xl')]: {
+    [theme.breakpoints.up('lg')]: {
+      margin: theme.spacing(0),
       textAlign: 'left',
     },
   },
   headers: {
-    [theme.breakpoints.up('xl')]: {
-      height: '100vh',
+    [theme.breakpoints.up('lg')]: {
+      height: '90vh',
       position: 'sticky',
       top: 0,
     },
@@ -26,19 +27,31 @@ const styles = theme => ({
     maxWidth: 720,
     margin: theme.spacing(0, 'auto'),
     paddingTop: theme.spacing(6),
-    [theme.breakpoints.up('xl')]: {
+    [theme.breakpoints.up('lg')]: {
+      margin: theme.spacing(0),
       padding: theme.spacing(10, 0),
     },
   },
   list: {
     margin: theme.spacing(0, 0, 4, 0),
   },
+  examples: {
+    [theme.breakpoints.up('lg')]: {
+      height: `calc(100vh - ${theme.spacing(20)}px)`,
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      '& > div': {
+        flex: 1,
+      },
+    },
+  },
   footer: {
-    marginTop: theme.spacing(2),
+    marginTop: theme.spacing(4),
     marginBottom: theme.spacing(2),
     textAlign: 'center',
-    [theme.breakpoints.up('xl')]: {
-      marginTop: theme.spacing(4),
+    [theme.breakpoints.up('lg')]: {
       marginBottom: theme.spacing(0),
       textAlign: 'left',
     },

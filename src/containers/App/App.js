@@ -168,16 +168,16 @@ function App(props) {
     )
   }
 
-  const renderTodaysDate = () => {
-    if (!datastore.length) {
-      return null
-    }
-    return (
-      <Typography component="div" align="center" color="textSecondary" variant="overline" paragraph>
-        ● {today.format('dddd, MMMM D, YYYY')} ●
-      </Typography>
-    )
-  }
+  // const renderTodaysDate = () => {
+  //   if (!datastore.length) {
+  //     return null
+  //   }
+  //   return (
+  //     <Typography component="div" align="center" color="textSecondary" variant="overline" paragraph>
+  //       ● {today.format('dddd, MMMM D, YYYY')} ●
+  //     </Typography>
+  //   )
+  // }
 
   const renderUpcomingCounters = () => {
     const data = datastore.filter(el => !normalizeDate(el.date).isBefore(today))
@@ -193,9 +193,7 @@ function App(props) {
 
   React.useEffect(() => {
     window.addEventListener('DaysCounterAppUpdate', showUpdateNotification, { once: true })
-    return () => window.removeEventListener('DaysCounterAppUpdate', showUpdateNotification)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [showUpdateNotification])
 
   return (
     <React.Fragment>

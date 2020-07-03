@@ -1,6 +1,6 @@
 {
   "name": "dayscounter.app",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "homepage": "https://dayscounter.app/",
   "private": true,
   "scripts": {

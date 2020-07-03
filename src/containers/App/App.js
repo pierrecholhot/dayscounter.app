@@ -5,7 +5,6 @@ import { useSnackbar } from 'notistack'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
-import Typography from '@material-ui/core/Typography'
 
 import DateCard from '../../components/DateCard'
 import DateCardList from '../../components/DateCardList'
@@ -193,7 +192,8 @@ function App(props) {
 
   React.useEffect(() => {
     window.addEventListener('DaysCounterAppUpdate', showUpdateNotification, { once: true })
-  }, [showUpdateNotification])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <React.Fragment>

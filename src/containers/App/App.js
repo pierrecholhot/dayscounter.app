@@ -192,8 +192,7 @@ function App(props) {
 
   React.useEffect(() => {
     window.addEventListener('DaysCounterAppUpdate', showUpdateNotification, { once: true })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [showUpdateNotification])
 
   return (
     <React.Fragment>

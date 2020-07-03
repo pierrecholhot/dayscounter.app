@@ -152,7 +152,7 @@ function App(props) {
       return null
     }
 
-    if (counters.length === deletedEntries.length) {
+    if (counters.length === deletedEntries.length && counters.length === 0) {
       return null
     }
 

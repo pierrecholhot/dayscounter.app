@@ -34,7 +34,7 @@ function App(props) {
   const [isCreatingEntry, setIsCreatingEntry] = React.useState(false)
   const [cardBeingEdited, setCardBeingEdited] = React.useState(null)
   const [datastore, setDatastore] = useDataStoreState([])
-  const deletedEntries = datastore.filter(e => !e.deleted)
+  const deletedEntries = datastore.filter(e => e.deleted)
 
   const showUpdateNotification = () => {
     updateNotification.show()
@@ -148,14 +148,9 @@ function App(props) {
   }
 
   const renderCounters = (label, counters) => {
-    if (!counters.length) {
+    if (!counters.length || counters.length === deletedEntries.length) {
       return null
     }
-
-    if (counters.length === deletedEntries.length && counters.length === 0) {
-      return null
-    }
-
     return (
       <DateCardList
         className={classes.list}

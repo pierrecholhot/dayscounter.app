@@ -87,7 +87,7 @@ function DateCard(props) {
 
   return (
     <React.Fragment>
-      <Collapse in={!props.isBeingDeleted} onEnter={() => setHidden(false)} onExited={() => setHidden(true)}>
+      <Collapse in={!props.data.deleted} onEnter={() => setHidden(false)} onExited={() => setHidden(true)}>
         <div style={{ display: hidden ? 'none' : 'block' }}>
           {props.dividerBefore ? <Divider component="div" /> : null}
           <ListItem component="div">

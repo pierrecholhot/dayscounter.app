@@ -31,22 +31,21 @@ function App(props) {
   const updateNotification = useUpdateNotification()
   const [isCreatingEntry, setIsCreatingEntry] = React.useState(false)
   const [cardBeingEdited, setCardBeingEdited] = React.useState(null)
-  const [deletedEntries, setDeletedEntries] = React.useState([])
   const [datastore, setDatastore] = useDataStoreState([])
+  const deletedEntries = datastore.filter(e => !e.deleted)
 
   const showUpdateNotification = () => {
     updateNotification.show()
   }
 
   const handleRequestUndo = data => {
-    setDeletedEntries(entries => entries.filter(entry => entry.id !== data.id))
+    const payload = { ...data, deleted: false }
+    handleRequestUpdate(payload)
     closeSnackbar(data.id)
   }
 
   const handleActualDelete = data => {
-    const match = entry => entry.id !== data.id
-    setDatastore(cds => cds.filter(match))
-    setDeletedEntries(entries => entries.filter(match))
+    setDatastore(cds => cds.filter(entry => entry.id !== data.id))
   }
 
   const handleRequestDuplicate = data => {
@@ -54,7 +53,8 @@ function App(props) {
   }
 
   const handleRequestDelete = data => {
-    setDeletedEntries(entries => [...entries, data])
+    const payload = { ...data, deleted: true }
+    handleRequestUpdate(payload)
     enqueueSnackbar(`Deleted « ${data.label || formatDate(data.date)} »`, {
       key: data.id,
       action: () => renderSnackbarUndo(data),
@@ -99,7 +99,6 @@ function App(props) {
         onRequestEdit={() => setCardBeingEdited(data)}
         onRequestDuplicate={() => handleRequestDuplicate(data)}
         onRequestDelete={() => handleRequestDelete(data)}
-        isBeingDeleted={deletedEntries.find(entry => entry.id === data.id)}
       />
     )
   }
@@ -151,12 +150,8 @@ function App(props) {
       return null
     }
 
-    if (deletedEntries.length) {
-      const allDeleted = counters.every(counter => deletedEntries.find(de => de.id === counter.id))
-
-      if (allDeleted) {
-        return null
-      }
+    if (counters.length === deletedEntries.length) {
+      return null
     }
 
     return (
@@ -187,7 +182,7 @@ function App(props) {
 
   React.useEffect(() => {
     window.addEventListener('DaysCounterAppUpdate', showUpdateNotification, { once: true })
-  }, [])
+  }, [showUpdateNotification])
 
   return (
     <React.Fragment>

@@ -9,7 +9,7 @@ import useCardColors from '../../utils/useCardColors'
 
 import useStyles from './ColorPicker.styles.js'
 
-function ColorPicker({ onSelect, selected, className, ...props }) {
+function ColorPicker({ onSelect, selected, hideSelected, className, ...props }) {
   const classes = useStyles()
   const cardColors = useCardColors()
 
@@ -24,9 +24,13 @@ function ColorPicker({ onSelect, selected, className, ...props }) {
 
   return (
     <RadioGroup {...rootProps}>
-      {cardColors.colors.map(color => (
-        <Color interactive key={color} code={color} selected={cardColors.colors[selected] === color} />
-      ))}
+      {cardColors.colors.map(color => {
+        const isSelected = cardColors.colors[selected] === color
+        if (isSelected && hideSelected) {
+          return null
+        }
+        return <Color interactive key={color} code={color} selected={isSelected} />
+      })}
     </RadioGroup>
   )
 }

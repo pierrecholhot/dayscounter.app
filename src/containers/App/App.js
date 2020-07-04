@@ -5,6 +5,7 @@ import { useSnackbar } from 'notistack'
 import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import Hidden from '@material-ui/core/Hidden'
+import Typography from '@material-ui/core/Typography'
 
 import DateCard from '../../components/DateCard'
 import DateCardList from '../../components/DateCardList'
@@ -35,6 +36,11 @@ function App(props) {
   const [cardBeingEdited, setCardBeingEdited] = React.useState(null)
   const [datastore, setDatastore] = useDataStoreState([])
   const deletedEntries = datastore.filter(e => e.deleted)
+
+  const handleRequestColorChange = (data, colorIndex) => {
+    const payload = { ...data, color: colorIndex }
+    handleRequestUpdate(payload)
+  }
 
   const handleRequestUndo = data => {
     const payload = { ...data, deleted: false }
@@ -95,6 +101,7 @@ function App(props) {
         data={data}
         key={data.id}
         onRequestEdit={() => setCardBeingEdited(data)}
+        onRequestColorChange={idx => handleRequestColorChange(data, idx)}
         onRequestDuplicate={() => handleRequestDuplicate(data)}
         onRequestDelete={() => handleRequestDelete(data)}
       />
@@ -137,7 +144,6 @@ function App(props) {
     }
 
     const total = data.length
-    // exclude deleted entries from total
     if (deletedEntries.length) {
       const totalWithoutDeleted = total - deletedEntries.length
       return bigInt(totalWithoutDeleted) ? `(${totalWithoutDeleted})` : null
@@ -163,16 +169,27 @@ function App(props) {
     )
   }
 
-  // const renderTodaysDate = () => {
-  //   if (!datastore.length) {
-  //     return null
-  //   }
-  //   return (
-  //     <Typography component="div" align="center" color="textSecondary" variant="overline" paragraph>
-  //       ● {today.format('dddd, MMMM D, YYYY')} ●
-  //     </Typography>
-  //   )
-  // }
+  const renderTodaysDate = () => {
+    if (!datastore.length) {
+      return null
+    }
+    return (
+      <Typography component="div" align="right" color="textSecondary" variant="overline" paragraph>
+        {today.format('dddd, MMMM D, YYYY (UTC Z)')}
+      </Typography>
+    )
+  }
+
+  const renderTotalCounters = () => {
+    if (!datastore.length || !bigList(datastore)) {
+      return null
+    }
+    return (
+      <Typography component="div" align="right" color="textSecondary" variant="overline">
+        You have {datastore.length} counters in total
+      </Typography>
+    )
+  }
 
   const renderUpcomingCounters = () => {
     const data = datastore.filter(el => !normalizeDate(el.date).isBefore(today))
@@ -206,10 +223,11 @@ function App(props) {
           </Grid>
           <Grid item xs={12} lg={6} xl={5}>
             <div className={classes.content}>
+              {renderTodaysDate()}
               {renderExamples()}
-              {/*renderTodaysDate()*/}
               {renderUpcomingCounters()}
               {renderPastCounters()}
+              {renderTotalCounters()}
             </div>
             <Hidden only={['lg', 'xl']} implementation="js">
               <Footer className={classes.footer} onRequestSwitchTheme={props.onRequestSwitchTheme} />

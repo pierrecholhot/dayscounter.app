@@ -5,7 +5,6 @@ import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import Divider from '@material-ui/core/Divider'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -112,10 +111,10 @@ function EntryUpdater(props) {
       PaperProps={{ className: classes.dialogPaper }}
     >
       <DialogTitle id="form-dialog-title">{isEditing ? 'Editing' : 'Creating a'} counter</DialogTitle>
-      <DateCardList single>
-        <DateCard data={previewData} interactive={false} dividerAfter dividerBefore />
-      </DateCardList>
-      <DialogContent>
+      <DialogContent dividers className={classes.dialogContent}>
+        <DateCardList single className={classes.preview}>
+          <DateCard data={previewData} interactive={false} dividerAfter dividerBefore={false} />
+        </DateCardList>
         {isEditing ? null : <div className={classes.suggestions}>{renderSuggestions()}</div>}
         <div className={classes.formContent}>
           <DatePicker
@@ -158,7 +157,6 @@ function EntryUpdater(props) {
           </div>
         </div>
       </DialogContent>
-      <Divider />
       <DialogActions>
         <Button onClick={handleCancel} color="primary">
           Cancel

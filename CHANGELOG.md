@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.14](https://github.com/pierrecholhot/dayscounter.app/compare/v0.1.13...v0.1.14) (2020-07-04)
+
+
+### Features
+
+* 🎸 Add ColorPicker to the context menu, todays date, total ([fc92a80](https://github.com/pierrecholhot/dayscounter.app/commit/fc92a801aabf48b286688e6f3a616207cc1f5241))
+
 ### [0.1.13](https://github.com/pierrecholhot/dayscounter.app/compare/v0.1.12...v0.1.13) (2020-07-03)
 
 

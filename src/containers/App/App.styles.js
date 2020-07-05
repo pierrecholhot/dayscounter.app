@@ -37,7 +37,7 @@ const styles = theme => ({
   },
   examples: {
     [theme.breakpoints.up('lg')]: {
-      height: `calc(100vh - ${theme.spacing(20)}px)`,
+      height: `calc(90vh - ${theme.spacing(20)}px)`,
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
@@ -49,7 +49,7 @@ const styles = theme => ({
   },
   footer: {
     marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(4),
     textAlign: 'center',
     [theme.breakpoints.up('lg')]: {
       marginBottom: theme.spacing(0),

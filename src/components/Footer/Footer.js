@@ -7,7 +7,10 @@ import MicroButton from '../MicroButton'
 
 import useUserInterface from '../../utils/useUserInterface'
 
+import useStyles from './Footer.styles'
+
 function Footer({ className, ...props }) {
+  const classes = useStyles()
   const { userInterface, toggleDarkMode, togglePrivacyStatement } = useUserInterface()
 
   const renderSource = () => (
@@ -32,7 +35,7 @@ function Footer({ className, ...props }) {
       return null
     }
     return (
-      <Typography variant="body2">
+      <Typography variant="body2" className={classes.privacy} color="textSecondary">
         <strong>Privacy:</strong> Your data is never shared or stored outside of this browser.{' '}
         <MicroButton onClick={togglePrivacyStatement}>Dismiss</MicroButton>
       </Typography>

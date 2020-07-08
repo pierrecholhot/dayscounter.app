@@ -1,5 +1,4 @@
 import React from 'react'
-import createPersistedState from 'use-persisted-state'
 import { useSnackbar } from 'notistack'
 
 import Button from '@material-ui/core/Button'
@@ -20,12 +19,11 @@ import formatDate from '../../utils/formatDate'
 import normalizeDate from '../../utils/normalizeDate'
 import today from '../../utils/today'
 import useUpdateNotification from '../../utils/useUpdateNotification'
+import useDataStore from '../../utils/useDataStore'
 import { bigList, bigInt } from '../../utils/bigData'
 import { sortDatesAsc, sortDatesDsc } from '../../utils/sortDates'
 
 import useStyles from './App.styles.js'
-
-const useDataStoreState = createPersistedState('datastore')
 
 function App(props) {
   const classes = useStyles()
@@ -34,8 +32,8 @@ function App(props) {
   const updateNotification = useUpdateNotification()
   const [isCreatingEntry, setIsCreatingEntry] = React.useState(false)
   const [cardBeingEdited, setCardBeingEdited] = React.useState(null)
-  const [datastore, setDatastore] = useDataStoreState([])
-  const deletedEntries = datastore.filter(e => e.deleted)
+  const { dataStore, addEntry, removeEntry, updateEntry } = useDataStore()
+  const deletedEntries = dataStore.filter(e => e.deleted)
 
   const handleRequestColorChange = (data, colorIndex) => {
     const payload = { ...data, color: colorIndex }
@@ -49,7 +47,7 @@ function App(props) {
   }
 
   const handleActualDelete = data => {
-    setDatastore(cds => cds.filter(entry => entry.id !== data.id))
+    removeEntry(data.id)
   }
 
   const handleRequestDuplicate = data => {
@@ -71,20 +69,15 @@ function App(props) {
   }
 
   const handleRequestUpdate = data => {
-    if (!data) {
-      setCardBeingEdited(null)
-      return
+    if (data) {
+      updateEntry(data.id, data)
     }
-    const idx = datastore.findIndex(el => el.id === data.id)
-    const updatedDatastore = [...datastore]
-    updatedDatastore[idx] = data
-    setDatastore(updatedDatastore)
     setCardBeingEdited(null)
   }
 
   const handleRequestCreate = data => {
     if (data) {
-      setDatastore(cds => [...cds, data])
+      addEntry(data)
     }
     setIsCreatingEntry(false)
   }
@@ -109,10 +102,13 @@ function App(props) {
   }
 
   const renderExamples = () => {
-    if (datastore.length) {
+    if (dataStore.length) {
       return null
     }
-    const withDates = examples.map(entry => ({ ...entry, date: backToTheFuture(entry.date) }))
+    const withDates = examples.map(entry => ({
+      ...entry,
+      date: backToTheFuture(entry.date),
+    }))
     return (
       <div className={classes.examples}>
         <DateCardList subheader="Some examples below">
@@ -142,7 +138,6 @@ function App(props) {
     if (!bigList(data)) {
       return null
     }
-
     const total = data.length
     if (deletedEntries.length) {
       const totalWithoutDeleted = total - deletedEntries.length
@@ -170,7 +165,7 @@ function App(props) {
   }
 
   const renderTodaysDate = () => {
-    if (!datastore.length) {
+    if (!dataStore.length) {
       return null
     }
     return (
@@ -181,24 +176,24 @@ function App(props) {
   }
 
   const renderTotalCounters = () => {
-    if (!datastore.length || !bigList(datastore)) {
+    if (!dataStore.length || !bigList(dataStore)) {
       return null
     }
     return (
       <Typography component="div" align="right" color="textSecondary" variant="overline">
-        You have {datastore.length} counters in total
+        You have {dataStore.length} counters in total
       </Typography>
     )
   }
 
   const renderUpcomingCounters = () => {
-    const data = datastore.filter(el => !normalizeDate(el.date).isBefore(today))
+    const data = dataStore.filter(el => !normalizeDate(el.date).isBefore(today))
     const counters = sortDatesDsc(data)
     return renderCounters('Upcoming', counters)
   }
 
   const renderPastCounters = () => {
-    const data = datastore.filter(el => normalizeDate(el.date).isBefore(today))
+    const data = dataStore.filter(el => normalizeDate(el.date).isBefore(today))
     const counters = sortDatesAsc(data)
     return renderCounters('Past', counters)
   }

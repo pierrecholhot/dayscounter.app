@@ -137,6 +137,7 @@ function EntryUpdater(props) {
                 {...props}
                 helperText={!isEditing && 'dd/mm/yyyy'}
                 error={!normalizeDate(newDate).isValid()}
+                InputLabelProps={{ shrink: true }}
               />
             )}
           />

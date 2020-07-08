@@ -55,6 +55,10 @@ export const makeTheme = dark => {
     },
   }
 
+  const customBreakpoints = {
+    onlyTouch: '@media (hover: none) and (pointer: coarse)',
+  }
+
   const globalCSS = {
     'html, body, #root': {
       width: '100%',
@@ -76,6 +80,9 @@ export const makeTheme = dark => {
       '&:hover, &:focus': {
         textDecoration: 'underline',
         outline: 'none',
+        [customBreakpoints.onlyTouch]: {
+          textDecoration: 'none',
+        },
       },
     },
   }
@@ -110,5 +117,6 @@ export const makeTheme = dark => {
     typography,
     palette,
     overrides,
+    customBreakpoints,
   }
 }

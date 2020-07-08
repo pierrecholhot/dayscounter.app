@@ -11,8 +11,14 @@ const styles = theme => ({
     background: 'none',
     border: 0,
     cursor: 'pointer',
-    '&:hover, &:focus': {
+    '&:hover': {
       textDecoration: 'underline',
+    },
+    '&:focus': {
+      textDecoration: 'underline',
+      [theme.customBreakpoints.onlyTouch]: {
+        textDecoration: 'none',
+      },
     },
   },
 })

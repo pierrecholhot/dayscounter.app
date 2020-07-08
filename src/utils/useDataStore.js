@@ -1,26 +1,27 @@
 import createPersistedState from 'use-persisted-state'
 
-export default () => {
-  const useDataStore = createPersistedState('datastore')
-  const [dataStore, setDataStore] = useDataStore()
+const useLocalDataStore = createPersistedState('datastore')
 
-  const addEntry = payload => {
+function useDataStore() {
+  const [dataStore, setDataStore] = useLocalDataStore()
+
+  function addEntry(payload) {
     setDataStore(ds => [payload, ...ds])
   }
 
-  const removeEntry = id => {
+  function removeEntry(id) {
     setDataStore(ds => ds.filter(entry => entry.id !== id))
   }
 
-  const findEntryData = id => {
+  function findEntryData(id) {
     return dataStore.find(entry => entry.id === id)
   }
 
-  const findEntryIndex = id => {
+  function findEntryIndex(id) {
     return dataStore.findIndex(entry => entry.id === id)
   }
 
-  const updateEntry = (id, payload) => {
+  function updateEntry(id, payload) {
     const entry = findEntryData(id)
     const index = findEntryIndex(id)
     const updatedEntry = { ...entry, ...payload }
@@ -30,5 +31,14 @@ export default () => {
     return updatedEntry
   }
 
-  return { dataStore, addEntry, removeEntry, findEntryData, updateEntry }
+  return {
+    dataStore,
+    addEntry,
+    removeEntry,
+    findEntryData,
+    findEntryIndex,
+    updateEntry,
+  }
 }
+
+export default useDataStore

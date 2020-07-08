@@ -1,3 +1,7 @@
-export const bigInt = (number = 0) => number > 4
+export function bigInt(int = 0) {
+  return int > 4
+}
 
-export const bigList = (data = []) => bigInt(data.length)
+export function bigList(list = []) {
+  return bigInt(list.length)
+}

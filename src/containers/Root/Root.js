@@ -9,7 +9,7 @@ import { LocalizationProvider } from '@material-ui/pickers'
 
 import App from '../App'
 
-import makeTheme from '../../utils/makeTheme'
+import { makeTheme } from '../../utils/makeTheme'
 
 function Root(props) {
   const [isDarkTheme, setIsDarkTheme] = React.useState(false)

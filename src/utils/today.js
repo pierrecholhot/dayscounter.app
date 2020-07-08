@@ -1,3 +1,5 @@
 import normalizeDate from './normalizeDate'
 
-export default normalizeDate(new Date())
+const today = normalizeDate(new Date())
+
+export default today

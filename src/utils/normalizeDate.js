@@ -1,3 +1,7 @@
 import dayjs from 'dayjs'
 
-export default date => dayjs(date).startOf('day')
+function normalizeDate(date) {
+  return dayjs(date).startOf('day')
+}
+
+export default normalizeDate

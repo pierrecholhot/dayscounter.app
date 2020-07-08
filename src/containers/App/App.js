@@ -26,10 +26,11 @@ import { sortDatesAsc, sortDatesDsc } from '../../utils/sortDates'
 import useStyles from './App.styles.js'
 
 function App(props) {
-  const classes = useStyles()
-
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+  //eslint-disable-next-line no-unused-vars
   const updateNotification = useUpdateNotification()
+
+  const classes = useStyles()
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const [isCreatingEntry, setIsCreatingEntry] = React.useState(false)
   const [cardBeingEdited, setCardBeingEdited] = React.useState(null)
   const { dataStore, addEntry, removeEntry, updateEntry } = useDataStore()
@@ -197,11 +198,6 @@ function App(props) {
     const counters = sortDatesAsc(data)
     return renderCounters('Past', counters)
   }
-
-  React.useEffect(() => {
-    const showUpdateNotification = () => updateNotification.show()
-    window.addEventListener('DaysCounterAppUpdate', showUpdateNotification, { once: true })
-  }, [updateNotification])
 
   return (
     <React.Fragment>

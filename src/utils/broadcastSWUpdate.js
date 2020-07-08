@@ -1,7 +1,11 @@
-export default async registration => {
-  if (registration && registration.waiting) {
+import { dispatchUpdateEvent } from './useUpdateNotification'
+
+async function broadcastSWUpdate(registration) {
+  if (registration?.waiting) {
     await registration.unregister()
     registration.waiting.postMessage({ type: 'SKIP_WAITING' })
-    window.dispatchEvent(new Event('DaysCounterAppUpdate'))
+    dispatchUpdateEvent()
   }
 }
+
+export default broadcastSWUpdate

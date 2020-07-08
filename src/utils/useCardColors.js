@@ -11,7 +11,7 @@ import teal from '@material-ui/core/colors/teal'
 import indigo from '@material-ui/core/colors/indigo'
 import green from '@material-ui/core/colors/green'
 
-export default function useCardColors() {
+function useCardColors() {
   const colors = []
   const theme = useTheme()
   const shade = theme.palette.type === 'dark' ? '400' : '300'
@@ -41,3 +41,5 @@ export default function useCardColors() {
     },
   }
 }
+
+export default useCardColors

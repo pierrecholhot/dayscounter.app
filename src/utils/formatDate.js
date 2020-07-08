@@ -1,3 +1,7 @@
 import dayjs from 'dayjs'
 
-export default date => dayjs(date).format('MMMM Do, YYYY')
+function formatDate(date) {
+  return dayjs(date).format('MMMM Do, YYYY')
+}
+
+export default formatDate

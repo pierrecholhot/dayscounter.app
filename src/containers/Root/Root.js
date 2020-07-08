@@ -3,30 +3,24 @@ import DayJsUtils from '@date-io/dayjs'
 import { SnackbarProvider } from 'notistack'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
-import useMediaQuery from '@material-ui/core/useMediaQuery'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import { LocalizationProvider } from '@material-ui/pickers'
 
 import App from '../App'
 
+import useUserInterface from '../../utils/useUserInterface'
 import { makeTheme } from '../../utils/makeTheme'
 
 function Root(props) {
-  const [isDarkTheme, setIsDarkTheme] = React.useState(false)
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
-
-  React.useEffect(() => {
-    setIsDarkTheme(prefersDarkMode)
-  }, [prefersDarkMode])
-
-  const theme = createMuiTheme(makeTheme(isDarkTheme))
+  const { userInterface } = useUserInterface()
+  const muiTheme = createMuiTheme(makeTheme(userInterface.enableDarkMode))
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={muiTheme}>
       <CssBaseline />
       <LocalizationProvider dateAdapter={DayJsUtils}>
         <SnackbarProvider maxSnack={3}>
-          <App onRequestSwitchTheme={() => setIsDarkTheme(!isDarkTheme)} />
+          <App />
         </SnackbarProvider>
       </LocalizationProvider>
     </ThemeProvider>

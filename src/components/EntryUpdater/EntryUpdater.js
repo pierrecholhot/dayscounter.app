@@ -29,8 +29,8 @@ import useStyles from './EntryUpdater.styles.js'
 function EntryUpdater(props) {
   const classes = useStyles()
   const cardColors = useCardColors()
-  const theme = useTheme()
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
+  const muiTheme = useTheme()
+  const fullScreen = useMediaQuery(muiTheme.breakpoints.down('sm'))
 
   const entryData = props.data || {}
   const isEditing = typeof props.data === 'object' && props.data !== null

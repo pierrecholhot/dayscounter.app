@@ -1,40 +1,40 @@
 import React from 'react'
 import cx from 'classnames'
-import createPersistedState from 'use-persisted-state'
 
 import Typography from '@material-ui/core/Typography'
-import { useTheme } from '@material-ui/core/styles'
 
 import MicroButton from '../MicroButton'
 
-const usePrivacyState = createPersistedState('showPrivacy')
+import useUserInterface from '../../utils/useUserInterface'
 
 function Footer({ className, ...props }) {
-  const [showPrivacy, setShowPrivacy] = usePrivacyState(true)
-  const theme = useTheme()
+  const { userInterface, toggleDarkMode, togglePrivacyStatement } = useUserInterface()
 
-  const openSource = (
+  const renderSource = () => (
     <a href="https://github.com/pierrecholhot/dayscounter.app/" target="_blank" rel="noopener noreferrer">
       open source
     </a>
   )
 
-  const madeWithLove = (
+  const renderCredits = () => (
     <a href="https://pierre.cx" target="_blank" rel="noopener noreferrer">
       made with love
     </a>
   )
 
-  const themeSwitcher = <MicroButton onClick={props.onRequestSwitchTheme}>{theme.palette.type === 'dark' ? 'light' : 'dark'} theme</MicroButton>
+  const renderThemeSwitch = () => {
+    const label = `${userInterface.enableDarkMode ? 'light' : 'dark'} theme`
+    return <MicroButton onClick={toggleDarkMode}>{label}</MicroButton>
+  }
 
   const renderPrivacyStatement = () => {
-    if (!showPrivacy) {
+    if (userInterface.hidePrivacyStatement) {
       return null
     }
     return (
       <Typography variant="body2">
         <strong>Privacy:</strong> Your data is never shared or stored outside of this browser.{' '}
-        <MicroButton onClick={() => setShowPrivacy(false)}>Dismiss</MicroButton>
+        <MicroButton onClick={togglePrivacyStatement}>Dismiss</MicroButton>
       </Typography>
     )
   }
@@ -42,7 +42,7 @@ function Footer({ className, ...props }) {
   return (
     <div className={cx(className)}>
       <Typography variant="body2" gutterBottom>
-        # {openSource} # {madeWithLove} # {themeSwitcher}
+        # {renderSource()} # {renderCredits()} # {renderThemeSwitch()}
       </Typography>
       {renderPrivacyStatement()}
     </div>

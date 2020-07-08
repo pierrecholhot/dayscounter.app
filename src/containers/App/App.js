@@ -208,7 +208,7 @@ function App(props) {
             <div>
               <Header className={classes.header} onRequestCreate={() => setIsCreatingEntry(true)} />
               <Hidden only={['xs', 'sm', 'md']} implementation="css">
-                <Footer className={classes.footer} onRequestSwitchTheme={props.onRequestSwitchTheme} />
+                <Footer className={classes.footer} />
               </Hidden>
             </div>
           </Grid>
@@ -221,7 +221,7 @@ function App(props) {
               {renderTotalCounters()}
             </div>
             <Hidden only={['lg', 'xl']} implementation="js">
-              <Footer className={classes.footer} onRequestSwitchTheme={props.onRequestSwitchTheme} />
+              <Footer className={classes.footer} />
             </Hidden>
           </Grid>
         </Grid>

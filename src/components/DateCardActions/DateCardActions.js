@@ -73,7 +73,7 @@ function DateCardActions({ id, selectedColor, onRequestEdit, onRequestColorChang
         anchorEl={state.anchor}
         open={state.open}
         onClose={hideMenu}
-        transformOrigin={{ vertical: 'top' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
       >
         <MenuItem component="div" onClick={handleEdit}>
           <ListItemIcon>

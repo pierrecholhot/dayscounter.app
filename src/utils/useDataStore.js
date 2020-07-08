@@ -1,9 +1,9 @@
 import createPersistedState from 'use-persisted-state'
 
-const useLocalDataStore = createPersistedState('datastore')
+const usePersistedState = createPersistedState('datastore')
 
 function useDataStore() {
-  const [dataStore, setDataStore] = useLocalDataStore()
+  const [dataStore, setDataStore] = usePersistedState([])
 
   function addEntry(payload) {
     setDataStore(ds => [payload, ...ds])

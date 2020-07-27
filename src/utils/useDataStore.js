@@ -13,6 +13,10 @@ function useDataStore() {
     setDataStore(ds => ds.filter(entry => entry.id !== id))
   }
 
+  function cleanupEntries() {
+    setDataStore(ds => ds.filter(entry => !entry.deleted))
+  }
+
   function findEntryData(id) {
     return dataStore.find(entry => entry.id === id)
   }
@@ -38,6 +42,7 @@ function useDataStore() {
     findEntryData,
     findEntryIndex,
     updateEntry,
+    cleanupEntries,
   }
 }
 

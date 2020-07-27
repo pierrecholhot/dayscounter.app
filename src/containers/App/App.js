@@ -20,7 +20,7 @@ import normalizeDate from '../../utils/normalizeDate'
 import today from '../../utils/today'
 import useUpdateNotification from '../../utils/useUpdateNotification'
 import useDataStore from '../../utils/useDataStore'
-import { bigList, bigInt } from '../../utils/bigData'
+import { bigList } from '../../utils/bigData'
 import { sortDatesAsc, sortDatesDsc } from '../../utils/sortDates'
 
 import useStyles from './App.styles.js'
@@ -33,8 +33,12 @@ function App(props) {
   const { enqueueSnackbar, closeSnackbar } = useSnackbar()
   const [isCreatingEntry, setIsCreatingEntry] = React.useState(false)
   const [cardBeingEdited, setCardBeingEdited] = React.useState(null)
-  const { dataStore, addEntry, removeEntry, updateEntry } = useDataStore()
-  const deletedEntries = dataStore.filter(e => e.deleted)
+  const { dataStore, addEntry, removeEntry, updateEntry, cleanupEntries } = useDataStore()
+
+  React.useEffect(() => {
+    cleanupEntries()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleRequestColorChange = (data, colorIndex) => {
     const payload = { ...data, color: colorIndex }
@@ -139,16 +143,11 @@ function App(props) {
     if (!bigList(data)) {
       return null
     }
-    const total = data.length
-    if (deletedEntries.length) {
-      const totalWithoutDeleted = total - deletedEntries.length
-      return bigInt(totalWithoutDeleted) ? `(${totalWithoutDeleted})` : null
-    }
-    return `(${total})`
+    return `(${data.length})`
   }
 
   const renderCounters = (label, counters) => {
-    if (!counters.length || counters.length === deletedEntries.length) {
+    if (!counters.length) {
       return null
     }
     return (
